@@ -75,4 +75,38 @@ public class FuncionesSQL {
         }
         return data;
     }
+    
+    public Object [][] getCita(){
+        int posid = 0;
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Cita");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            posid = res.getInt("total");
+            res.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+        }
+        Object[][] data = new String[posid][4];
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idCita,nombre,observacion,fecha FROM `Cita` WHERE `fecha` =  '2013-10-06 08:00:00' ORDER BY idCita");
+            ResultSet res = pstm.executeQuery();
+            int increment = 0;
+            while(res.next()){
+                String estId = res.getString("idCita");
+                String estNombre = res.getString("nombre");
+                String estObservacion = res.getString("observacion");
+                String estFecha = res.getString("fecha");
+                data[increment][0] = estId;
+                data[increment][1] = estNombre;
+                data[increment][2] = estObservacion;
+                data[increment][3] = estFecha;
+                increment++;
+            }
+            res.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+        }
+        return data;
+    }
 }

@@ -25,6 +25,7 @@ import javax.swing.JFrame;
  * @author cepardov
  */
 public class jcTrayIcon {
+    FuncionesSystem fs=new FuncionesSystem();
     private JFrame miframe;
     public String name="Cartera Clientes - Javier Burgos";
     private PopupMenu popup = new PopupMenu();
@@ -94,9 +95,10 @@ public class jcTrayIcon {
         public void windowIconified(WindowEvent e){
            miframe.setVisible(true);//Se oculta JFrame
            //Se inicia una tarea cuando se minimiza
+           MensajeTrayIcon("la aplicacion seguira funcionando en segundo plano.", MessageType.INFO);
            band = false;
            timer = new Timer();           
-           //timer.schedule(new MyTimerTask(),0, 150000 );
+           //timer.schedule(new MyTimerTask(),0, 100000 );
         }
     });
     }
@@ -108,8 +110,8 @@ public class jcTrayIcon {
     }
 
     //clase interna que manejara una accion en segundo plano
-    /*
-    class MyTimerTask extends TimerTask {
+    
+    /*class MyTimerTask extends TimerTask {
         public void run() {
             if(band)//Termina Timer
                 timer.cancel();

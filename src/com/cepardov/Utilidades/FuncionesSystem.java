@@ -19,5 +19,4 @@ public class FuncionesSystem {
         SimpleDateFormat hour = new SimpleDateFormat("HH:mm:ss");
         return date.format(now)+" "+hour.format(now);
     }
-    
 }

@@ -4,8 +4,19 @@
  */
 package InterfazGrafica;
 
+import com.cepardov.Utilidades.FuncionesSQL;
+import com.cepardov.Utilidades.FuncionesSystem;
 import com.cepardov.Utilidades.jcTrayIcon;
 import java.awt.TrayIcon;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -14,19 +25,61 @@ import javax.swing.JFrame;
  */
 public class Escritorio extends javax.swing.JFrame {
      jcTrayIcon jct = new jcTrayIcon( this );
-    /**
+     FuncionesSystem fs=new FuncionesSystem();
+     FuncionesSQL data=new FuncionesSQL();
+     Object[][] dtPrev;
+     Timer timer;
+     String fechaHoraAnterior=" ";
+     String fechaHoraActual;
+     String ultimaCita="";
+     String ultimaObs="";
+     
+   /**
      * Creates new form Escritorio
      */
-    public Escritorio() {
+    public Escritorio() throws Exception {
         initComponents();
         setState(JFrame.MAXIMIZED_BOTH);
         this.mensajes();
+        timer = new Timer(); 
+        timer.schedule (new RemindTask(),0, 60000);
+        fechaHoraAnterior=fs.fechahora();
+        this.lbltiempo.setText(fs.fechahora());
+        this.lblultimacita.setText("");
+        this.lblultimaobservacion.setText("");
+        this.lblobservacion.setText("");
     }
 
     public void mensajes(){
         jct.MensajeTrayIcon("Bienvenido (a)", TrayIcon.MessageType.INFO);
         jct.MensajeTrayIcon("Prototipo No estable", TrayIcon.MessageType.WARNING);
     }
+    
+    public void BuscaCita() throws ClassNotFoundException, SQLException{
+        //Consulta y setea hora actual del sistema en variable local fechaHora desde clase funciones de sistema
+        fechaHoraAnterior=fechaHoraActual;
+        this.lbltiempo.setText(fechaHoraAnterior);
+        fechaHoraActual=fs.fechahora();
+        
+        System.out.println("anterior="+fechaHoraAnterior);
+        System.out.println("actual="+fechaHoraActual);
+        //Busca nuevas citas
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM  `Cita` WHERE `fecha` BETWEEN  '"+fechaHoraAnterior+"' AND '"+fechaHoraActual+"'");
+        while (rs.next()) {
+            this.lblcita.setText("Usted Tiene una cita con"+" "+rs.getObject("nombre").toString()+" "+rs.getObject("fecha").toString());
+            this.lblobservacion.setText("Observación: "+rs.getObject("observacion"));
+            jct.MensajeTrayIcon(lblcita.getText(), TrayIcon.MessageType.INFO);
+            System.out.println("result "+rs.getObject("idCita"));
+            if(rs.getObject("idCita").toString().isEmpty()){
+                jct.MensajeTrayIcon("No na", TrayIcon.MessageType.INFO);
+            }
+            }   
+        rs.close();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,6 +91,12 @@ public class Escritorio extends javax.swing.JFrame {
 
         p = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
+        lbltiempo = new javax.swing.JLabel();
+        lblcita = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblobservacion = new javax.swing.JLabel();
+        lblultimacita = new javax.swing.JLabel();
+        lblultimaobservacion = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
@@ -60,18 +119,57 @@ public class Escritorio extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Notificaciones Pendientes"));
 
+        lbltiempo.setText("Hora");
+
+        lblcita.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        lblcita.setText("No se encontraron nuevas notificaciones...");
+        lblcita.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        jLabel1.setText("Última Actualización: ");
+
+        lblobservacion.setForeground(new java.awt.Color(255, 39, 0));
+        lblobservacion.setText("Observacion");
+
+        lblultimacita.setText("jLabel2");
+
+        lblultimaobservacion.setText("jLabel3");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 668, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblcita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblobservacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbltiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addComponent(lblultimacita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblultimaobservacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 115, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbltiempo)
+                    .addComponent(jLabel1))
+                .addGap(5, 5, 5)
+                .addComponent(lblcita)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblobservacion)
+                .addGap(18, 18, 18)
+                .addComponent(lblultimacita)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblultimaobservacion)
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
-        jPanel1.setBounds(10, 10, 680, 140);
+        jPanel1.setBounds(10, 10, 540, 190);
         p.add(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenu1.setText("Achivo");
@@ -147,11 +245,14 @@ public class Escritorio extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
         );
 
         pack();
@@ -220,11 +321,28 @@ public class Escritorio extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Escritorio().setVisible(true);
+                try {
+                    new Escritorio().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
+    class RemindTask extends TimerTask  {
+         public void run (){
+             jct.MensajeTrayIcon("Comprobando notificaciones...", TrayIcon.MessageType.INFO);
+             try {
+                 BuscaCita();
+             } catch (ClassNotFoundException ex) {
+                 Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (SQLException ex) {
+                 Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+             }
+          }  
+      } 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -239,6 +357,11 @@ public class Escritorio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblcita;
+    private javax.swing.JLabel lblobservacion;
+    private javax.swing.JLabel lbltiempo;
+    private javax.swing.JLabel lblultimacita;
+    private javax.swing.JLabel lblultimaobservacion;
     private javax.swing.JDesktopPane p;
     // End of variables declaration//GEN-END:variables
 }
