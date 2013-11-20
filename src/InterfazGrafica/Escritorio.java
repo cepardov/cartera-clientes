@@ -27,32 +27,41 @@ public class Escritorio extends javax.swing.JFrame {
      jcTrayIcon jct = new jcTrayIcon( this );
      FuncionesSystem fs=new FuncionesSystem();
      FuncionesSQL data=new FuncionesSQL();
+     String usuario=null;
      Object[][] dtPrev;
      Timer timer;
-     String fechaHoraAnterior=" ";
+     String fechaHoraAnterior;
      String fechaHoraActual;
-     String ultimaCita="";
-     String ultimaObs="";
      
    /**
      * Creates new form Escritorio
      */
-    public Escritorio() throws Exception {
+    public Escritorio(){
         initComponents();
         setState(JFrame.MAXIMIZED_BOTH);
-        this.mensajes();
         timer = new Timer(); 
         timer.schedule (new RemindTask(),0, 60000);
         fechaHoraAnterior=fs.fechahora();
         this.lbltiempo.setText(fs.fechahora());
         this.lblultimacita.setText("");
-        this.lblultimaobservacion.setText("");
+        this.lblultimaobs.setText("");
         this.lblobservacion.setText("");
+        this.lblcita.setText("");
     }
-
-    public void mensajes(){
-        jct.MensajeTrayIcon("Bienvenido (a)", TrayIcon.MessageType.INFO);
-        jct.MensajeTrayIcon("Prototipo No estable", TrayIcon.MessageType.WARNING);
+    
+    public Escritorio(String nombre, String Apellido, String Usuario){
+        initComponents();
+        usuario = Usuario;
+        jct.MensajeTrayIcon("Bienvenido (a) "+nombre+" "+Apellido, TrayIcon.MessageType.INFO);
+        setState(JFrame.MAXIMIZED_BOTH);
+        timer = new Timer(); 
+        timer.schedule (new RemindTask(),0, 60000);
+        fechaHoraAnterior=fs.fechahora();
+        this.lbltiempo.setText(fs.fechahora());
+        this.lblultimacita.setText("");
+        this.lblultimaobs.setText("");
+        this.lblobservacion.setText("");
+        this.lblcita.setText("");
     }
     
     public void BuscaCita() throws ClassNotFoundException, SQLException{
@@ -63,6 +72,9 @@ public class Escritorio extends javax.swing.JFrame {
         
         System.out.println("anterior="+fechaHoraAnterior);
         System.out.println("actual="+fechaHoraActual);
+        
+        this.lblultimacita.setText(this.lblcita.getText());
+        this.lblultimaobs.setText(this.lblobservacion.getText());
         //Busca nuevas citas
         Class.forName("com.mysql.jdbc.Driver");
         Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
@@ -96,11 +108,12 @@ public class Escritorio extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblobservacion = new javax.swing.JLabel();
         lblultimacita = new javax.swing.JLabel();
-        lblultimaobservacion = new javax.swing.JLabel();
+        lblultimaobs = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        MenuCliente = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -108,11 +121,11 @@ public class Escritorio extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        selCambiaClave = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Cartera de Clientes - Javier Burgos - EB y Cia Ltada.");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         p.setAutoscrolls(true);
@@ -132,7 +145,9 @@ public class Escritorio extends javax.swing.JFrame {
 
         lblultimacita.setText("jLabel2");
 
-        lblultimaobservacion.setText("jLabel3");
+        lblultimaobs.setText("jLabel3");
+
+        jButton1.setText("Ver Historial");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,7 +164,10 @@ public class Escritorio extends javax.swing.JFrame {
                         .addComponent(lbltiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 11, Short.MAX_VALUE))
                     .addComponent(lblultimacita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblultimaobservacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblultimaobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -162,11 +180,13 @@ public class Escritorio extends javax.swing.JFrame {
                 .addComponent(lblcita)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblobservacion)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(lblultimacita)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblultimaobservacion)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addComponent(lblultimaobs)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         jPanel1.setBounds(10, 10, 540, 190);
@@ -176,8 +196,13 @@ public class Escritorio extends javax.swing.JFrame {
 
         jMenu5.setText("Nuevo");
 
-        jMenuItem7.setText("Cliente");
-        jMenu5.add(jMenuItem7);
+        MenuCliente.setText("Cliente");
+        MenuCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuClienteActionPerformed(evt);
+            }
+        });
+        jMenu5.add(MenuCliente);
 
         jMenuItem6.setText("Cita");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -230,6 +255,14 @@ public class Escritorio extends javax.swing.JFrame {
 
         jMenu2.add(jMenu4);
 
+        selCambiaClave.setText("Cambiar Contraseña");
+        selCambiaClave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selCambiaClaveActionPerformed(evt);
+            }
+        });
+        jMenu2.add(selCambiaClave);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Ayuda");
@@ -252,7 +285,7 @@ public class Escritorio extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
         );
 
         pack();
@@ -291,6 +324,20 @@ public class Escritorio extends javax.swing.JFrame {
         nc.show();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void MenuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuClienteActionPerformed
+        // TODO add your handling code here:
+        NuevoCliente newc=new NuevoCliente();
+        p.add(newc);
+        newc.show();
+    }//GEN-LAST:event_MenuClienteActionPerformed
+
+    private void selCambiaClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selCambiaClaveActionPerformed
+        // TODO add your handling code here:
+        editarclave edc=new editarclave(usuario);
+        p.add(edc);
+        edc.show();
+    }//GEN-LAST:event_selCambiaClaveActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -320,12 +367,9 @@ public class Escritorio extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                try {
                     new Escritorio().setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         });
     }
@@ -342,6 +386,8 @@ public class Escritorio extends javax.swing.JFrame {
           }  
       } 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MenuCliente;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -355,13 +401,13 @@ public class Escritorio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblcita;
     private javax.swing.JLabel lblobservacion;
     private javax.swing.JLabel lbltiempo;
     private javax.swing.JLabel lblultimacita;
-    private javax.swing.JLabel lblultimaobservacion;
+    private javax.swing.JLabel lblultimaobs;
     private javax.swing.JDesktopPane p;
+    private javax.swing.JMenuItem selCambiaClave;
     // End of variables declaration//GEN-END:variables
 }

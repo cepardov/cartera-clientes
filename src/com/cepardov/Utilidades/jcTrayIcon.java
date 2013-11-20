@@ -27,7 +27,7 @@ import javax.swing.JFrame;
 public class jcTrayIcon {
     FuncionesSystem fs=new FuncionesSystem();
     private JFrame miframe;
-    public String name="Cartera Clientes - Javier Burgos";
+    public String name="Notificaciones Cartera Clientes";
     private PopupMenu popup = new PopupMenu();
     private Image image =new ImageIcon(getClass().getResource("icon.png")).getImage() ;
     private final TrayIcon trayIcon = new TrayIcon(image,name, popup);
