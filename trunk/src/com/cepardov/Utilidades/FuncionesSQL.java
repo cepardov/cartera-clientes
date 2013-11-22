@@ -173,6 +173,38 @@ public class FuncionesSQL {
         return data;
     }
     
+    public Object [][] getNotificaciones(){
+        int posid = 0;
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Cita");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            posid = res.getInt("total");
+            res.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+        }
+        Object[][] data = new String[posid][3];
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT nombre,observacion,fecha FROM Cita ORDER BY fecha");
+            ResultSet res = pstm.executeQuery();
+            int increment = 0;
+            while(res.next()){
+                String estNombre = res.getString("nombre");
+                String estObservacion = res.getString("observacion");
+                String estFecha = res.getString("fecha");
+                data[increment][0] = estNombre;
+                data[increment][1] = estObservacion;
+                data[increment][2] = estFecha;
+                increment++;
+            }
+            res.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+        }
+        return data;
+    }
+    
     public Object [][] getCita(){
         int posid = 0;
         try{
@@ -205,6 +237,16 @@ public class FuncionesSQL {
                 JOptionPane.showMessageDialog(null, e);
         }
         return data;
+    }
+    
+    public void delNotifiacion(String dato,String fecha){
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("delete from Cita where nombre='"+dato+"'and fecha='"+fecha+"'");
+            pstm.execute();
+            pstm.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
     
 }

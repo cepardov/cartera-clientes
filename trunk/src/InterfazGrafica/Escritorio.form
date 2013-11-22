@@ -141,7 +141,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="p" alignment="0" pref="519" max="32767" attributes="0"/>
+          <Component id="p" alignment="0" pref="523" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -185,7 +185,7 @@
                           <Component id="lblultimaobs" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnhistarial" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -208,7 +208,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblultimaobs" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnhistarial" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -252,10 +252,13 @@
                 <Property name="text" type="java.lang.String" value="jLabel3"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnhistarial">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ver Historial"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnhistarialActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

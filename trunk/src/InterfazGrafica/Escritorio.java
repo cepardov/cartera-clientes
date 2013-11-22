@@ -109,7 +109,7 @@ public class Escritorio extends javax.swing.JFrame {
         lblobservacion = new javax.swing.JLabel();
         lblultimacita = new javax.swing.JLabel();
         lblultimaobs = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnhistarial = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
@@ -147,7 +147,12 @@ public class Escritorio extends javax.swing.JFrame {
 
         lblultimaobs.setText("jLabel3");
 
-        jButton1.setText("Ver Historial");
+        btnhistarial.setText("Ver Historial");
+        btnhistarial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnhistarialActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,7 +172,7 @@ public class Escritorio extends javax.swing.JFrame {
                     .addComponent(lblultimaobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(btnhistarial)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -185,7 +190,7 @@ public class Escritorio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblultimaobs)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnhistarial)
                 .addContainerGap())
         );
 
@@ -285,7 +290,7 @@ public class Escritorio extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
         );
 
         pack();
@@ -338,6 +343,13 @@ public class Escritorio extends javax.swing.JFrame {
         edc.show();
     }//GEN-LAST:event_selCambiaClaveActionPerformed
 
+    private void btnhistarialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhistarialActionPerformed
+        // TODO add your handling code here:
+        HistorialNotificaciones hn=new HistorialNotificaciones();
+        p.add(hn);
+        hn.show();
+    }//GEN-LAST:event_btnhistarialActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -387,7 +399,7 @@ public class Escritorio extends javax.swing.JFrame {
       } 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuCliente;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnhistarial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
