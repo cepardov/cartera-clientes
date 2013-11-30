@@ -53,6 +53,8 @@ public class Escritorio extends javax.swing.JFrame {
         initComponents();
         usuario = Usuario;
         jct.MensajeTrayIcon("Bienvenido (a) "+nombre+" "+Apellido, TrayIcon.MessageType.INFO);
+        jct.MensajeTrayIcon("Cargando componentes de la aplicación...", TrayIcon.MessageType.INFO);
+        jct.MensajeTrayIcon("Conectando con base de datos y comprobando la integridad de esta", TrayIcon.MessageType.INFO);
         setState(JFrame.MAXIMIZED_BOTH);
         timer = new Timer(); 
         timer.schedule (new RemindTask(),0, 60000);
@@ -81,7 +83,7 @@ public class Escritorio extends javax.swing.JFrame {
         Statement st = conexion.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM  `Cita` WHERE `fecha` BETWEEN  '"+fechaHoraAnterior+"' AND '"+fechaHoraActual+"'");
         while (rs.next()) {
-            this.lblcita.setText("Usted Tiene una cita con"+" "+rs.getObject("nombre").toString()+" "+rs.getObject("fecha").toString());
+            this.lblcita.setText("Usted Tiene una cita con"+" "+rs.getObject("nombre").toString()+"\n "+rs.getObject("fecha").toString());
             this.lblobservacion.setText("Observación: "+rs.getObject("observacion"));
             jct.MensajeTrayIcon(lblcita.getText(), TrayIcon.MessageType.INFO);
             System.out.println("result "+rs.getObject("idCita"));
@@ -112,15 +114,16 @@ public class Escritorio extends javax.swing.JFrame {
         btnhistarial = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
         MenuCliente = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        btnBuscaCliente = new javax.swing.JMenuItem();
         selCambiaClave = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -167,7 +170,7 @@ public class Escritorio extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbltiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 11, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(lblultimacita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblultimaobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -199,25 +202,13 @@ public class Escritorio extends javax.swing.JFrame {
 
         jMenu1.setText("Achivo");
 
-        jMenu5.setText("Nuevo");
-
-        MenuCliente.setText("Cliente");
+        MenuCliente.setText("Centro Control Clientes");
         MenuCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuClienteActionPerformed(evt);
             }
         });
-        jMenu5.add(MenuCliente);
-
-        jMenuItem6.setText("Cita");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem6);
-
-        jMenu1.add(jMenu5);
+        jMenu1.add(MenuCliente);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem5.setText("Cerrar");
@@ -250,15 +241,35 @@ public class Escritorio extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem3);
 
+        jMenu6.setText("Credito");
+
         jMenuItem4.setText("Financiamiento");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem4);
+        jMenu6.add(jMenuItem4);
+
+        jMenuItem7.setText("Ejecutivos");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem7);
+
+        jMenu4.add(jMenu6);
 
         jMenu2.add(jMenu4);
+
+        btnBuscaCliente.setText("Buscar Cliente");
+        btnBuscaCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscaClienteActionPerformed(evt);
+            }
+        });
+        jMenu2.add(btnBuscaCliente);
 
         selCambiaClave.setText("Cambiar Contraseña");
         selCambiaClave.addActionListener(new java.awt.event.ActionListener() {
@@ -290,7 +301,7 @@ public class Escritorio extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
         );
 
         pack();
@@ -322,16 +333,9 @@ public class Escritorio extends javax.swing.JFrame {
         mv.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
-        NuevaCita nc=new NuevaCita();
-        p.add(nc);
-        nc.show();
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
     private void MenuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuClienteActionPerformed
         // TODO add your handling code here:
-        NuevoCliente newc=new NuevoCliente();
+        ControlCliente newc=new ControlCliente();
         p.add(newc);
         newc.show();
     }//GEN-LAST:event_MenuClienteActionPerformed
@@ -349,6 +353,20 @@ public class Escritorio extends javax.swing.JFrame {
         p.add(hn);
         hn.show();
     }//GEN-LAST:event_btnhistarialActionPerformed
+
+    private void btnBuscaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaClienteActionPerformed
+        // TODO add your handling code here:
+        BuscarCliente bc=new BuscarCliente();
+        p.add(bc);
+        bc.show();
+    }//GEN-LAST:event_btnBuscaClienteActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        MantenedorEjecutivos me=new MantenedorEjecutivos();
+        p.add(me);
+        me.show();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,7 +405,6 @@ public class Escritorio extends javax.swing.JFrame {
     }
     class RemindTask extends TimerTask  {
          public void run (){
-             jct.MensajeTrayIcon("Comprobando notificaciones...", TrayIcon.MessageType.INFO);
              try {
                  BuscaCita();
              } catch (ClassNotFoundException ex) {
@@ -399,27 +416,28 @@ public class Escritorio extends javax.swing.JFrame {
       } 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuCliente;
+    private javax.swing.JMenuItem btnBuscaCliente;
     private javax.swing.JButton btnhistarial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblcita;
     private javax.swing.JLabel lblobservacion;
     private javax.swing.JLabel lbltiempo;
     private javax.swing.JLabel lblultimacita;
     private javax.swing.JLabel lblultimaobs;
-    private javax.swing.JDesktopPane p;
+    public javax.swing.JDesktopPane p;
     private javax.swing.JMenuItem selCambiaClave;
     // End of variables declaration//GEN-END:variables
 }
