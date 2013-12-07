@@ -7,6 +7,8 @@ package InterfazGrafica;
 import com.cepardov.Utilidades.FuncionesSQL;
 import com.cepardov.Utilidades.FuncionesSystem;
 import com.cepardov.Utilidades.jcTrayIcon;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -81,7 +83,7 @@ public class Escritorio extends javax.swing.JFrame {
         Class.forName("com.mysql.jdbc.Driver");
         Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
         Statement st = conexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM  `Agenda` WHERE `fecha` BETWEEN  '"+fechaHoraAnterior+"' AND '"+fechaHoraActual+"'");
+        ResultSet rs = st.executeQuery("SELECT * FROM  `agenda` WHERE `fecha` BETWEEN  '"+fechaHoraAnterior+"' AND '"+fechaHoraActual+"'");
         while (rs.next()) {
             this.lblcita.setText(rs.getObject("tipo").toString()+" "+rs.getObject("nombre").toString()+" "+rs.getObject("paterno").toString()+" "+rs.getObject("materno").toString()+" el "+rs.getObject("fecha").toString());
             this.lblobservacion.setText("Observación: "+rs.getObject("observacion"));
@@ -92,6 +94,15 @@ public class Escritorio extends javax.swing.JFrame {
 //            }
             }   
         rs.close();
+    }
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("resources/icon.png"));
+
+
+        return retValue;
     }
     
     /**
@@ -130,6 +141,7 @@ public class Escritorio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setIconImage(getIconImage());
 
         p.setAutoscrolls(true);
 
@@ -301,7 +313,7 @@ public class Escritorio extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
+            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
         );
 
         pack();
