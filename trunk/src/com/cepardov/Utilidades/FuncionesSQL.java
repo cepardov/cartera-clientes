@@ -61,6 +61,36 @@ public class FuncionesSQL {
             JOptionPane.showMessageDialog(null, se);
       }
    }
+    
+    public void updateMarcas(String idMarca, String nombre){
+       try {                
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update marca "+
+            "set nombre=?"+
+            "where idMarca=?");            
+            pstm.setString(1, nombre);                 
+            pstm.setString(2, idMarca);
+            pstm.execute();
+            pstm.close();            
+       }catch(SQLException se){
+            JOptionPane.showMessageDialog(null, se);
+      }
+   }
+    
+    public void updateModelos(String idModelo, int idMarca, String nombre){
+       try {                
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update modelo "+
+            "set idMarca=? ,"+
+            "nombre=?"+
+            "where idModelo=?");     
+            pstm.setInt(1, idMarca);
+            pstm.setString(2, nombre);                 
+            pstm.setString(3, idModelo);
+            pstm.execute();
+            pstm.close();            
+       }catch(SQLException se){
+            JOptionPane.showMessageDialog(null, se);
+      }
+   }
    
     public void updateFinanciamiento(int idFinanciamiento, String nombre){
        try {                
@@ -153,7 +183,7 @@ public class FuncionesSQL {
             pstm.close();
             JOptionPane.showMessageDialog(null, "Operacion realizada...");
             }catch(SQLException se){
-                JOptionPane.showMessageDialog(null, se);
+                JOptionPane.showMessageDialog(null,"Debe seleccionar primero la marca de la unidad.\n"+ se);
         }
     }
     
@@ -669,4 +699,13 @@ public class FuncionesSQL {
         }
     }
     
+    public void delCliente(String rutCliente){
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("DELETE FROM cliente WHERE rutCliente='"+rutCliente+"'");
+            pstm.execute();
+            pstm.close();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 }

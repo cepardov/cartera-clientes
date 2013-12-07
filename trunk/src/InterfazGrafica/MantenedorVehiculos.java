@@ -125,6 +125,11 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
         });
 
         btnmodificamarca.setText("Modificar");
+        btnmodificamarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnmodificamarcaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -217,6 +222,11 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
         jLabel5.setText("Nombre Modelo");
 
         btnmodificamodelo.setText("Modificar");
+        btnmodificamodelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnmodificamodeloActionPerformed(evt);
+            }
+        });
 
         btnguardamodelo.setText("Guardar");
         btnguardamodelo.addActionListener(new java.awt.event.ActionListener() {
@@ -281,6 +291,11 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaModelo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaModeloMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaModelo);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -347,6 +362,7 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
                 if(resultado.equals(nombre.toUpperCase())){
                     JOptionPane.showMessageDialog(null, "La marca "+nombre+" ya ha sido ingresada...", "Error de datos", JOptionPane.ERROR_MESSAGE);
                     this.txtnombremarca.setText("");
+                    this.txtidmarca.setText("");
                 } else {
                         data.addMarca(nombre);
                 }
@@ -356,6 +372,7 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
             this.updateTablaMarca();
 
             this.txtnombremarca.setText("");
+            this.txtidmarca.setText("");
         }
     }//GEN-LAST:event_btnguardamarcaActionPerformed
 
@@ -374,6 +391,8 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
         String nombre=this.txtnombremodelo.getText();
         if(this.txtnombremodelo.toString().isEmpty()||nombre.isEmpty()||nombre==null){
             JOptionPane.showMessageDialog(null, "Debe ingresar un nombre", "Error de datos", JOptionPane.ERROR_MESSAGE);
+        }else if(this.cbMarca.getSelectedItem().toString().equals("Seleccione")){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una marca", "Error de datos", JOptionPane.ERROR_MESSAGE);
         }else{
             try{
                 Class.forName("com.mysql.jdbc.Driver");
@@ -429,6 +448,57 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_cbMarcaItemStateChanged
+
+    private void tablaModeloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaModeloMouseClicked
+        // TODO add your handling code here:
+        //String idMarcas="";
+        fila = tablaModelo.rowAtPoint(evt.getPoint());
+        if (fila > -1){
+            this.txtidmodelo.setText(String.valueOf(tablaModelo.getValueAt(fila, 0)));
+            this.txtnombremodelo.setText(String.valueOf(tablaModelo.getValueAt(fila, 2)));
+            idMarca=Integer.parseInt(String.valueOf(tablaModelo.getValueAt(fila, 1)));
+        }
+        System.out.println("idMarca="+idMarca);
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT nombre FROM marca WHERE idMarca='"+idMarca+"'");
+            while (rs.next()) {
+                this.cbMarca.setSelectedItem(rs.getObject("nombre").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_tablaModeloMouseClicked
+
+    private void btnmodificamarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificamarcaActionPerformed
+        // TODO add your handling code here:
+        String idMarcas=this.txtidmarca.getText();
+        String nombre=this.txtnombremarca.getText();
+        
+        data.updateMarcas(idMarcas, nombre);
+        this.updateTablaMarca();
+        this.txtidmarca.setText("");
+        this.txtnombremarca.setText("");
+    }//GEN-LAST:event_btnmodificamarcaActionPerformed
+
+    private void btnmodificamodeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificamodeloActionPerformed
+        // TODO add your handling code here:
+        String idModelo=this.txtidmodelo.getText();
+        String nombre=this.txtnombremodelo.getText();
+        
+        data.updateModelos(idModelo, idMarca, nombre);
+        this.updateTablaMarca();
+        this.updateTablaModelo();
+        this.getComboMarcas();
+        this.txtidmodelo.setText("");
+        this.txtnombremodelo.setText("");
+        this.cbMarca.setSelectedIndex(0);
+    }//GEN-LAST:event_btnmodificamodeloActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnguardamarca;
