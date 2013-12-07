@@ -27,7 +27,7 @@ public class HistorialNotificaciones extends javax.swing.JInternalFrame {
     }
     
     private void updateTablaMarca(){  
-        String[] columNames = {"Nombre","Observacion","Fecha"};  
+        String[] columNames = {"Fecha","Tipo","Nombre","Apellido","Observacion"};  
         dtPrev = data.getNotificaciones();
         DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
         tabla.setModel(datos); 
@@ -101,7 +101,7 @@ public class HistorialNotificaciones extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btndelete)
@@ -119,7 +119,7 @@ public class HistorialNotificaciones extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(btndelete)
@@ -158,8 +158,8 @@ public class HistorialNotificaciones extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         fila = tabla.rowAtPoint(evt.getPoint());
         if (fila > -1){
-            this.txtdato.setText(String.valueOf(tabla.getValueAt(fila, 0)));
-            this.txtfecha.setText(String.valueOf(tabla.getValueAt(fila, 2)));
+            this.txtfecha.setText(String.valueOf(tabla.getValueAt(fila, 0)));
+            this.txtdato.setText(String.valueOf(tabla.getValueAt(fila, 2)));
         }
     }//GEN-LAST:event_tablaMouseClicked
 
@@ -171,6 +171,9 @@ public class HistorialNotificaciones extends javax.swing.JInternalFrame {
         String dato=this.txtdato.getText();
         String fecha=this.txtfecha.getText();
         
+            System.out.println("Fecha="+fecha);
+            System.out.println("Nombre="+dato);
+            
         data.delNotifiacion(dato, fecha);
         updateTablaMarca();
         this.txtdato.setText("");

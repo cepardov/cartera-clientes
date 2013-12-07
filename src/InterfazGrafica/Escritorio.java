@@ -81,15 +81,15 @@ public class Escritorio extends javax.swing.JFrame {
         Class.forName("com.mysql.jdbc.Driver");
         Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
         Statement st = conexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM  `Cita` WHERE `fecha` BETWEEN  '"+fechaHoraAnterior+"' AND '"+fechaHoraActual+"'");
+        ResultSet rs = st.executeQuery("SELECT * FROM  `Agenda` WHERE `fecha` BETWEEN  '"+fechaHoraAnterior+"' AND '"+fechaHoraActual+"'");
         while (rs.next()) {
-            this.lblcita.setText("Usted Tiene una cita con"+" "+rs.getObject("nombre").toString()+"\n "+rs.getObject("fecha").toString());
+            this.lblcita.setText(rs.getObject("tipo").toString()+" "+rs.getObject("nombre").toString()+" "+rs.getObject("paterno").toString()+" "+rs.getObject("materno").toString()+" el "+rs.getObject("fecha").toString());
             this.lblobservacion.setText("Observación: "+rs.getObject("observacion"));
             jct.MensajeTrayIcon(lblcita.getText(), TrayIcon.MessageType.INFO);
-            System.out.println("result "+rs.getObject("idCita"));
-            if(rs.getObject("idCita").toString().isEmpty()){
-                jct.MensajeTrayIcon("No na", TrayIcon.MessageType.INFO);
-            }
+
+//            if(rs.getObject("idCita").toString().isEmpty()){
+//                jct.MensajeTrayIcon("No na", TrayIcon.MessageType.INFO);
+//            }
             }   
         rs.close();
     }

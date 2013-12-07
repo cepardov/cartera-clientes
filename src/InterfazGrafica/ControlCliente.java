@@ -52,11 +52,20 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         TableColumn columna = tablahistoria.getColumn("Fecha");
     }
     
+    private void updateTablaAgenda(String rutCliente){  
+        String[] columNames = {"ID","Fecha","Tipo","Observación"};
+        dtPrev = data.getAgendamiento(rutCliente);
+        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
+        tablaAgenda.setModel(datos); 
+        TableColumn columna = tablaAgenda.getColumn("Fecha");
+    }
+    
     private void updateClearTabla(){  
         String[] columNames = {"Sin Datos"};
         DefaultTableModel datos = new DefaultTableModel(dtPrev2,columNames);                        
         tablahistoria.setModel(datos);
         tablacotizacion.setModel(datos);
+        tablaAgenda.setModel(datos);
         TableColumn columna = tablahistoria.getColumn("Sin Datos");
     }
     
@@ -289,13 +298,14 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         jButton4 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tablanotificacion = new javax.swing.JTable();
+        tablaAgenda = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
         setTitle("Centro de Control Clientes");
         setMaximumSize(new java.awt.Dimension(1024, 710));
+        setMinimumSize(new java.awt.Dimension(104, 100));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Personales"));
 
@@ -413,17 +423,17 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtmaterno)
-                                    .addComponent(txtciudad, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addContainerGap())
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel9))
-                                .addGap(0, 50, Short.MAX_VALUE))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtmaterno)
+                                    .addComponent(txtciudad))
+                                .addContainerGap())))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -443,8 +453,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnsave)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnupdate)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(btnupdate)))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -593,7 +602,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 44, Short.MAX_VALUE)))
+                        .addGap(0, 57, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -776,7 +785,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Agendamiento de Cliente"));
 
-        cbTipoAgendamiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Comunicarse", "Citar", "Llegada de Unidad", "Entrega de Unidad", "Facturación", "Solicitud", "Otro" }));
+        cbTipoAgendamiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Comunicarse con...", "Citar a...", "Llegada de Unidad", "Entrega de Unidad", "Facturación", "Solicitud de...", "Otro," }));
 
         jLabel20.setText("Tipo");
 
@@ -784,7 +793,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jLabel22.setText("a las");
 
-        cbHora.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "H", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        cbHora.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "H", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24" }));
 
         cbMinutos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "M", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
 
@@ -805,13 +814,6 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtobservacionAgenda))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jButton4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbTipoAgendamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -823,9 +825,19 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addComponent(jLabel22)
                         .addGap(2, 2, 2)
                         .addComponent(cbHora, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jButton4)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jLabel23)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtobservacionAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)))
+                        .addGap(12, 12, 12))))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -851,7 +863,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Notificaciones del Cliente"));
 
-        tablanotificacion.setModel(new javax.swing.table.DefaultTableModel(
+        tablaAgenda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -862,7 +874,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                 "Tipo", "Fecha", "Observación"
             }
         ));
-        jScrollPane4.setViewportView(tablanotificacion);
+        jScrollPane4.setViewportView(tablaAgenda);
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -873,7 +885,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -881,17 +893,17 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         tabAgenda.setLayout(tabAgendaLayout);
         tabAgendaLayout.setHorizontalGroup(
             tabAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 606, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         tabAgendaLayout.setVerticalGroup(
             tabAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabAgendaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         tab.addTab("Agendamiento", tabAgenda);
@@ -910,7 +922,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -960,6 +972,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         this.updateClearTabla();
         this.updateTablaHistoria(rutCliente);
         this.updateTablaCotizacion(rutCliente);
+        this.updateTablaAgenda(rutCliente);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
@@ -991,6 +1004,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         this.updateClearTabla();
         this.updateTablaHistoria(rutCliente);
         this.updateTablaCotizacion(rutCliente);
+        this.updateTablaAgenda(rutCliente);
     }//GEN-LAST:event_txtrutClienteFocusLost
 
     private void cbMarcasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMarcasItemStateChanged
@@ -1124,6 +1138,9 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         
         data.addAgendamiento(rutCliente, nombre, paterno, materno, tipo, observacion, fechahora);
         data.addHistoria(rutCliente, fechaoperacion, "Agenda: "+tipo+" el "+fechahora+" con Obs: "+observacion);
+        
+        this.updateTablaAgenda(rutCliente);
+        this.updateTablaHistoria(rutCliente);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1182,9 +1199,9 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane tab;
     private javax.swing.JPanel tabAgenda;
     private javax.swing.JPanel tabCotiazcion;
+    private javax.swing.JTable tablaAgenda;
     private javax.swing.JTable tablacotizacion;
     private javax.swing.JTable tablahistoria;
-    private javax.swing.JTable tablanotificacion;
     private javax.swing.JFormattedTextField txtDesc;
     private javax.swing.JFormattedTextField txtIva;
     private javax.swing.JFormattedTextField txtNeto;
