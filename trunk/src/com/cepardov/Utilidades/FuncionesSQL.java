@@ -399,7 +399,43 @@ public class FuncionesSQL {
     public Object [][] getNotificaciones(){
         int posid = 0;
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Cita");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Agenda");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            posid = res.getInt("total");
+            res.close();
+            }catch(SQLException se){
+                JOptionPane.showMessageDialog(null, se);
+        }
+        Object[][] data = new String[posid][5];
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT fecha,tipo,nombre,paterno,observacion FROM Agenda ORDER BY fecha");
+            ResultSet res = pstm.executeQuery();
+            int increment = 0;
+            while(res.next()){
+                String estFecha = res.getString("fecha");
+                String estTipo = res.getString("tipo");
+                String estNombre = res.getString("nombre");
+                String estPaterno = res.getString("paterno");
+                String estObs = res.getString("observacion");
+                data[increment][0] = estFecha;
+                data[increment][1] = estTipo;
+                data[increment][2] = estNombre;
+                data[increment][3] = estPaterno;
+                data[increment][4] = estObs;
+                increment++;
+            }
+            res.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+        }
+        return data;
+    }
+    
+    public Object [][] getAgendamiento(String rutCliente){
+        int posid = 0;
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Agenda");
             ResultSet res = pstm.executeQuery();
             res.next();
             posid = res.getInt("total");
@@ -407,23 +443,25 @@ public class FuncionesSQL {
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e);
         }
-        Object[][] data = new String[posid][3];
+        Object[][] data = new String[posid][4];
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT nombre,observacion,fecha FROM Cita ORDER BY fecha");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idAgenda,fecha, tipo,observacion FROM Agenda WHERE rutCliente='"+rutCliente+"' ORDER BY fecha");
             ResultSet res = pstm.executeQuery();
             int increment = 0;
             while(res.next()){
-                String estNombre = res.getString("nombre");
-                String estObservacion = res.getString("observacion");
+                String estIdAgenda = res.getString("idAgenda");
                 String estFecha = res.getString("fecha");
-                data[increment][0] = estNombre;
-                data[increment][1] = estObservacion;
-                data[increment][2] = estFecha;
+                String estTipo = res.getString("tipo");
+                String estObs = res.getString("observacion");
+                data[increment][0] = estIdAgenda;
+                data[increment][1] = estFecha;
+                data[increment][2] = estTipo;
+                data[increment][3] = estObs;
                 increment++;
             }
             res.close();
-            }catch(SQLException e){
-                JOptionPane.showMessageDialog(null, e);
+            }catch(SQLException se){
+                JOptionPane.showMessageDialog(null, se);
         }
         return data;
     }
@@ -574,11 +612,11 @@ public class FuncionesSQL {
     
     public void delNotifiacion(String dato,String fecha){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("delete from Cita where nombre='"+dato+"'and fecha='"+fecha+"'");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("delete from Agenda where nombre='"+dato+"'and fecha='"+fecha+"'");
             pstm.execute();
             pstm.close();
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, e);
+        }catch(SQLException se){
+            JOptionPane.showMessageDialog(null, se);
         }
     }
     
