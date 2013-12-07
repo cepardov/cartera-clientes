@@ -95,7 +95,7 @@ public class jcTrayIcon {
         public void windowIconified(WindowEvent e){
            miframe.setVisible(true);//Se oculta JFrame
            //Se inicia una tarea cuando se minimiza
-           MensajeTrayIcon("la aplicacion seguira funcionando en segundo plano.", MessageType.INFO);
+           MensajeTrayIcon("La aplicación seguirá funcionando en segundo plano", MessageType.INFO);
            band = false;
            timer = new Timer();           
            //timer.schedule(new MyTimerTask(),0, 100000 );

@@ -23,7 +23,7 @@ public class Usuario{
         try{
             Conect c=new Conect();
             cn=c.getConnection();
-            String sql="SELECT * FROM Usuario WHERE usuario=? AND clave=?";
+            String sql="SELECT * FROM usuario WHERE usuario=? AND clave=?";
             pr=cn.prepareStatement(sql);
             pr.setString(1, usuario);
             pr.setString(2, clave);

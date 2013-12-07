@@ -5,6 +5,15 @@
 package InterfazGrafica;
 
 import com.cepardov.Utilidades.FuncionesSQL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -15,21 +24,53 @@ import javax.swing.table.TableColumn;
 public class MantenedorVehiculos extends javax.swing.JInternalFrame {
     FuncionesSQL data=new FuncionesSQL();
     Object[][] dtPrev;
+    Object[][] dato;
     int fila;
+    public int idMarca;
     /**
      * Creates new form MantenedorVehiculos
      */
     public MantenedorVehiculos() {
         initComponents();
         this.updateTablaMarca();
+        this.updateTablaModelo();
+        this.getComboMarcas();
     }
     
     private void updateTablaMarca(){  
         String[] columNames = {"ID Marca","Nombre Marca"};  
         dtPrev = data.getMarca();
         DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
-        tblmarca.setModel(datos); 
-        TableColumn columna = tblmarca.getColumn("ID Marca");
+        tablaMarca.setModel(datos); 
+        TableColumn columna = tablaMarca.getColumn("ID Marca");
+    }
+    
+    private void updateTablaModelo(){  
+        String[] columNames = {"ID Modelo","ID Marca","Nombre Marca"};  
+        dtPrev = data.getModelo();
+        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
+        tablaModelo.setModel(datos); 
+        TableColumn columna = tablaModelo.getColumn("ID Modelo");
+    }
+    
+    private void getComboMarcas(){
+        try{
+            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM marca");
+            modeloCombo.addElement("Seleccione");
+            while (rs.next()) {
+                modeloCombo.addElement(rs.getObject("nombre"));
+            }
+            rs.close();
+            this.cbMarca.setModel(modeloCombo);
+        } catch (SQLException ex) {
+            Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -43,44 +84,30 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblmarca = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtidmarca = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtnombremarca = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         btnguardamarca = new javax.swing.JButton();
         btnmodificamarca = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaMarca = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtidmodelo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        cbmarcas = new javax.swing.JComboBox();
+        cbMarca = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         txtnombremodelo = new javax.swing.JTextField();
         btnmodificamodelo = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         btnguardamodelo = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaModelo = new javax.swing.JTable();
 
+        setClosable(true);
         setTitle("Mantenedor de Vehículos");
-
-        tblmarca.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tblmarca);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de Edición"));
 
@@ -89,13 +116,6 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
         txtidmarca.setEditable(false);
 
         jLabel2.setText("Nombre");
-
-        jButton1.setText("Cerrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         btnguardamarca.setText("Guardar");
         btnguardamarca.addActionListener(new java.awt.event.ActionListener() {
@@ -120,13 +140,11 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtnombremarca))
+                        .addComponent(txtnombremarca, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(btnmodificamarca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnguardamarca)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(btnguardamarca)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -140,37 +158,12 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
                     .addComponent(txtnombremarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
                     .addComponent(btnguardamarca)
                     .addComponent(btnmodificamarca))
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 5, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 35, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Crear/Edición Marca", jPanel2);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tablaMarca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -181,28 +174,56 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        tablaMarca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMarcaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaMarca);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 68, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Crear/Edición Marca", jPanel2);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Panel de Edición"));
 
         jLabel3.setText("ID");
 
+        txtidmodelo.setEditable(false);
+
         jLabel4.setText("Seleccione Marca");
 
-        cbmarcas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMarca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMarca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbMarcaItemStateChanged(evt);
+            }
+        });
 
         jLabel5.setText("Nombre Modelo");
 
         btnmodificamodelo.setText("Modificar");
 
-        jButton2.setText("Cerrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnguardamodelo.setText("Guardar");
+        btnguardamodelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnguardamodeloActionPerformed(evt);
             }
         });
-
-        btnguardamodelo.setText("Guardar");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -218,7 +239,7 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbmarcas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbMarca, 0, 194, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -226,9 +247,7 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(btnmodificamodelo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnguardamodelo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(btnguardamodelo)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -239,39 +258,45 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtidmodelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(cbmarcas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtnombremodelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnmodificamodelo)
-                    .addComponent(jButton2)
                     .addComponent(btnguardamodelo))
-                .addContainerGap())
+                .addGap(15, 15, 15))
         );
+
+        tablaModelo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaModelo);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 3, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 9, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 31, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Crear/Editar Modelo", jPanel4);
@@ -290,37 +315,127 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1)
-                .addContainerGap())
+                .addGap(17, 17, 17))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void btnguardamarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardamarcaActionPerformed
         // TODO add your handling code here:
+        String resultado=null;
         String nombre=this.txtnombremarca.getText();
-        data.addMarca(nombre);
-        this.updateTablaMarca();
+        if(this.txtnombremarca.toString().isEmpty()||nombre.isEmpty()||nombre==null){
+            JOptionPane.showMessageDialog(null, "Debe ingresar un nombre", "Error de datos", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+                Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery("SELECT * FROM marca WHERE nombre='"+nombre+"'");
+                while (rs.next()) {
+                    resultado=rs.getObject("nombre").toString().toUpperCase();
+                }
+                rs.close();
+                System.out.println("result="+resultado);
+            } catch (SQLException se) {
+                System.out.println(se);
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            if(resultado!=null){
+                if(resultado.equals(nombre.toUpperCase())){
+                    JOptionPane.showMessageDialog(null, "La marca "+nombre+" ya ha sido ingresada...", "Error de datos", JOptionPane.ERROR_MESSAGE);
+                    this.txtnombremarca.setText("");
+                } else {
+                        data.addMarca(nombre);
+                }
+            }else{
+                data.addMarca(nombre);
+            }
+            this.updateTablaMarca();
+
+            this.txtnombremarca.setText("");
+        }
     }//GEN-LAST:event_btnguardamarcaActionPerformed
+
+    private void tablaMarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMarcaMouseClicked
+        // TODO add your handling code here:
+        fila = tablaMarca.rowAtPoint(evt.getPoint());
+        if (fila > -1){
+            this.txtidmarca.setText(String.valueOf(tablaMarca.getValueAt(fila, 0)));
+            this.txtnombremarca.setText(String.valueOf(tablaMarca.getValueAt(fila, 1)));
+        }
+    }//GEN-LAST:event_tablaMarcaMouseClicked
+
+    private void btnguardamodeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardamodeloActionPerformed
+        // TODO add your handling code here:
+        String resultado=null;
+        String nombre=this.txtnombremodelo.getText();
+        if(this.txtnombremodelo.toString().isEmpty()||nombre.isEmpty()||nombre==null){
+            JOptionPane.showMessageDialog(null, "Debe ingresar un nombre", "Error de datos", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+                Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery("SELECT * FROM modelo WHERE nombre='"+nombre+"'");
+                while (rs.next()) {
+                    resultado=rs.getObject("nombre").toString().toUpperCase();
+                }
+                rs.close();
+                System.out.println("result="+resultado);
+            } catch (SQLException se) {
+                System.out.println(se);
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            if(resultado!=null){
+                if(resultado.equals(nombre.toUpperCase())){
+                    JOptionPane.showMessageDialog(null, "El modelo "+nombre+" de "+cbMarca.getSelectedItem().toString()+" ya ha sido ingresada...", "Error de datos", JOptionPane.ERROR_MESSAGE);
+                    this.txtnombremodelo.setText("");
+                } else {
+                        data.addModelo(idMarca, nombre);
+                }
+            }else{
+                data.addModelo(idMarca, nombre);
+            }
+            this.updateTablaMarca();
+            this.txtnombremodelo.setText("");
+        }
+        this.updateTablaModelo();
+        
+        this.txtnombremodelo.setText("");
+        this.getComboMarcas();
+    }//GEN-LAST:event_btnguardamodeloActionPerformed
+
+    private void cbMarcaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMarcaItemStateChanged
+        // TODO add your handling code here:
+        String marca=this.cbMarca.getSelectedItem().toString();
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT idMarca FROM marca WHERE nombre='"+marca+"'");
+            while (rs.next()) {
+                idMarca=Integer.parseInt(rs.getObject("idMarca").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        
+    }//GEN-LAST:event_cbMarcaItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnguardamarca;
     private javax.swing.JButton btnguardamodelo;
     private javax.swing.JButton btnmodificamarca;
     private javax.swing.JButton btnmodificamodelo;
-    private javax.swing.JComboBox cbmarcas;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox cbMarca;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -333,8 +448,8 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable tblmarca;
+    private javax.swing.JTable tablaMarca;
+    private javax.swing.JTable tablaModelo;
     private javax.swing.JTextField txtidmarca;
     private javax.swing.JTextField txtidmodelo;
     private javax.swing.JTextField txtnombremarca;

@@ -23,7 +23,7 @@ public class FuncionesSQL {
     public int getUsuario(){
         int posid = 0;
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Usuario");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM usuario");
             ResultSet res = pstm.executeQuery();
             res.next();
             posid = res.getInt("total");
@@ -36,7 +36,7 @@ public class FuncionesSQL {
     
     public void updateClave(String clave, String usuario){
        try {                
-            PreparedStatement pstm = conn.getConnection().prepareStatement("update Usuario "+
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update usuario "+
             "set clave=?"+
             "where usuario=?");            
             pstm.setString(1, clave);                 
@@ -50,7 +50,7 @@ public class FuncionesSQL {
     
     public void updateClienteEstado(String rutCliente, String estado){
        try {                
-            PreparedStatement pstm = conn.getConnection().prepareStatement("update Cliente "+
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update cliente "+
             "set estado=?"+
             "where rutCliente=?");            
             pstm.setString(1, estado);                 
@@ -64,7 +64,7 @@ public class FuncionesSQL {
    
     public void updateFinanciamiento(int idFinanciamiento, String nombre){
        try {                
-            PreparedStatement pstm = conn.getConnection().prepareStatement("update Financiamiento "+
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update financiamiento "+
             "set nombre=? where idFinanciamiento=?");                             
             pstm.setString(1, nombre);
             pstm.setInt(2, idFinanciamiento);
@@ -77,7 +77,7 @@ public class FuncionesSQL {
     
     public void addUsuario(String rut, String nombre, String apellido, String usuario, String clave, String pregunta, String respuesta){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into Usuario (rut,nombre,apellido,usuario,clave,pregunta,respuesta) values(?,?,?,?,?,?,?)");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into usuario (rut,nombre,apellido,usuario,clave,pregunta,respuesta) values(?,?,?,?,?,?,?)");
             pstm.setString(1, rut);
             pstm.setString(2, nombre);
             pstm.setString(3, apellido);
@@ -123,7 +123,7 @@ public class FuncionesSQL {
     
     public void addFinanciamiento(String nombre){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into Financiamiento (nombre) values(?)");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into financiamiento (nombre) values(?)");
             pstm.setString(1, nombre);
             pstm.execute();
             pstm.close();
@@ -134,7 +134,7 @@ public class FuncionesSQL {
     
     public void addMarca(String nombre){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into Marca (nombre) values(?)");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into marca (nombre) values(?)");
             pstm.setString(1, nombre);
             pstm.execute();
             pstm.close();
@@ -144,9 +144,22 @@ public class FuncionesSQL {
         }
     }
     
+    public void addModelo(int idMarca, String nombre){
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into modelo (idMarca,nombre) values(?,?)");
+            pstm.setInt(1, idMarca);
+            pstm.setString(2, nombre);
+            pstm.execute();
+            pstm.close();
+            JOptionPane.showMessageDialog(null, "Operacion realizada...");
+            }catch(SQLException se){
+                JOptionPane.showMessageDialog(null, se);
+        }
+    }
+    
     public void addCita(String nombre, String observacion, String fechahora){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into Cita (nombre,observacion,fecha) values(?,?,?)");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into cita (nombre,observacion,fecha) values(?,?,?)");
             pstm.setString(1, nombre);
             pstm.setString(2, observacion);
             pstm.setString(3, fechahora);
@@ -160,7 +173,7 @@ public class FuncionesSQL {
     
     public void addAgendamiento(String rutCliente, String nombre, String paterno, String materno, String tipo, String observacion, String fechahora){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into Agenda (rutCliente,nombre,paterno,materno,tipo,observacion,fecha) values(?,?,?,?,?,?,?)");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into agenda (rutCliente,nombre,paterno,materno,tipo,observacion,fecha) values(?,?,?,?,?,?,?)");
             pstm.setString(1, rutCliente);
             pstm.setString(2, nombre);
             pstm.setString(3, paterno);
@@ -178,7 +191,7 @@ public class FuncionesSQL {
     
     public void addCliente(String rutCliente, String nombre, String paterno, String materno, String Estado, String direccion, String ciudad, String telefono, String email, String fechaIngreso){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into Cliente (rutCliente,nombre,paterno,materno,estado,direccion, ciudad,telefono,email,fechaIngreso) values(?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into cliente (rutCliente,nombre,paterno,materno,estado,direccion, ciudad,telefono,email,fechaIngreso) values(?,?,?,?,?,?,?,?,?,?)");
             pstm.setString(1, rutCliente);
             pstm.setString(2, nombre);
             pstm.setString(3, paterno);
@@ -199,7 +212,7 @@ public class FuncionesSQL {
     
     public void addCotizacion(String rutCliente, int idMarca, int idModelo, int idFinanciamiento, int idEjecutivo, String tipo, String neto, String descuento, String iva, String total, String observaciones, String fecha){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into Cotizacion (rutCliente,idMarca,idModelo,idFinanciamiento,idEjecutivo,tipo,neto,descuento,iva,total,observaciones,fecha) values(?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into cotizacion (rutCliente,idMarca,idModelo,idFinanciamiento,idEjecutivo,tipo,neto,descuento,iva,total,observaciones,fecha) values(?,?,?,?,?,?,?,?,?,?,?,?)");
             pstm.setString(1, rutCliente);
             pstm.setInt(2, idMarca);
             pstm.setInt(3, idModelo);
@@ -222,7 +235,7 @@ public class FuncionesSQL {
     
     public void updateCliente(String rutCliente, String nombre, String paterno, String materno, String Estado, String direccion, String ciudad, String telefono, String email){
        try {            
-            PreparedStatement pstm = conn.getConnection().prepareStatement("update Cliente " +
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update cliente " +
             "set rutCliente = ? ," +
             "nombre = ? ," +
             "paterno = ? ," +
@@ -253,7 +266,7 @@ public class FuncionesSQL {
     
    public void updateCotizacion(String idCotizacion, int idMarca, int idModelo, int idFinanciamiento, int idEjecutivo, String tipo, String neto, String descuento, String iva, String total, String observaciones, String rutCliente){
        try {            
-            PreparedStatement pstm = conn.getConnection().prepareStatement("update Cotizacion " +
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update cotizacion " +
             "set idMarca = ? ," +
             "idModelo = ? ," +
             "idFinanciamiento = ? ," +
@@ -287,7 +300,7 @@ public class FuncionesSQL {
     public Object [][] getMarca(){
         int posid = 0;
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Marca");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM marca");
             ResultSet res = pstm.executeQuery();
             res.next();
             posid = res.getInt("total");
@@ -297,7 +310,7 @@ public class FuncionesSQL {
         }
         Object[][] data = new String[posid][2];
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idMarca,nombre FROM Marca ORDER BY idMarca");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idMarca,nombre FROM marca ORDER BY idMarca");
             ResultSet res = pstm.executeQuery();
             int increment = 0;
             while(res.next()){
@@ -310,6 +323,66 @@ public class FuncionesSQL {
             res.close();
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, e);
+        }
+        return data;
+    }
+    
+    public Object [][] getModelo(){
+        int posid = 0;
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM modelo");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            posid = res.getInt("total");
+            res.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+        }
+        Object[][] data = new String[posid][3];
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idModelo,idMarca,nombre FROM modelo ORDER BY idModelo");
+            ResultSet res = pstm.executeQuery();
+            int increment = 0;
+            while(res.next()){
+                String estIdmodelo = res.getString("idModelo");
+                String estIdmarca = res.getString("idMarca");
+                String estNombre = res.getString("nombre");
+                data[increment][0] = estIdmodelo;
+                data[increment][1] = estIdmarca;
+                data[increment][2] = estNombre;
+                increment++;
+            }
+            res.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, e);
+        }
+        return data;
+    }
+    
+    public Object [][] getIdMarca(String marca){
+        int posid = 0;
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM marca");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            posid = res.getInt("total");
+            res.close();
+            }catch(SQLException se){
+                JOptionPane.showMessageDialog(null, se);
+        }
+        Object[][] data = new String[posid][1];
+        try{
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idMarca FROM marca WHERE nombre='"+marca+"'");
+            ResultSet res = pstm.executeQuery();
+            int increment = 0;
+            while(res.next()){
+                String estId = res.getString("idMarca");
+                data[increment][0] = estId;
+                increment++;
+            }
+            res.close();
+            }catch(SQLException se){
+                JOptionPane.showMessageDialog(null, se);
         }
         return data;
     }
@@ -349,7 +422,7 @@ public class FuncionesSQL {
         int posid = 0;
         System.out.println("ejecutando comando para "+rutCliente);
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Cotizacion");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM cotizacion");
             ResultSet res = pstm.executeQuery();
             res.next();
             posid = res.getInt("total");
@@ -359,7 +432,7 @@ public class FuncionesSQL {
         }
         Object[][] data = new String[posid][12];
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idCotizacion, idMarca,idModelo,idFinanciamiento,idEjecutivo,tipo,neto,descuento,iva,total,observaciones,fecha FROM Cotizacion WHERE rutCliente='"+rutCliente+"'");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idCotizacion, idMarca,idModelo,idFinanciamiento,idEjecutivo,tipo,neto,descuento,iva,total,observaciones,fecha FROM cotizacion WHERE rutCliente='"+rutCliente+"'");
             ResultSet res = pstm.executeQuery();
             int increment = 0;
             while(res.next()){
@@ -399,7 +472,7 @@ public class FuncionesSQL {
     public Object [][] getNotificaciones(){
         int posid = 0;
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Agenda");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM agenda");
             ResultSet res = pstm.executeQuery();
             res.next();
             posid = res.getInt("total");
@@ -409,7 +482,7 @@ public class FuncionesSQL {
         }
         Object[][] data = new String[posid][5];
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT fecha,tipo,nombre,paterno,observacion FROM Agenda ORDER BY fecha");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT fecha,tipo,nombre,paterno,observacion FROM agenda ORDER BY fecha");
             ResultSet res = pstm.executeQuery();
             int increment = 0;
             while(res.next()){
@@ -435,7 +508,7 @@ public class FuncionesSQL {
     public Object [][] getAgendamiento(String rutCliente){
         int posid = 0;
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Agenda");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM agenda");
             ResultSet res = pstm.executeQuery();
             res.next();
             posid = res.getInt("total");
@@ -445,7 +518,7 @@ public class FuncionesSQL {
         }
         Object[][] data = new String[posid][4];
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idAgenda,fecha, tipo,observacion FROM Agenda WHERE rutCliente='"+rutCliente+"' ORDER BY fecha");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idAgenda,fecha, tipo,observacion FROM agenda WHERE rutCliente='"+rutCliente+"' ORDER BY fecha");
             ResultSet res = pstm.executeQuery();
             int increment = 0;
             while(res.next()){
@@ -469,7 +542,7 @@ public class FuncionesSQL {
     public Object [][] getFinanciamiento(){
         int posid = 0;
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Financiamiento");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM financiamiento");
             ResultSet res = pstm.executeQuery();
             res.next();
             posid = res.getInt("total");
@@ -479,7 +552,7 @@ public class FuncionesSQL {
         }
         Object[][] data = new String[posid][2];
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idFinanciamiento,nombre FROM Financiamiento ORDER BY nombre");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idFinanciamiento,nombre FROM financiamiento ORDER BY nombre");
             ResultSet res = pstm.executeQuery();
             int increment = 0;
             while(res.next()){
@@ -540,7 +613,7 @@ public class FuncionesSQL {
             System.out.println("Funcion SQL");
             System.out.println("Nombre: "+nombre);
             System.out.println("Apellido: "+apellido);
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Cliente");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM cliente");
             ResultSet res = pstm.executeQuery();
             res.next();
             posid = res.getInt("total");
@@ -550,7 +623,7 @@ public class FuncionesSQL {
         }
         Object[][] data = new String[posid][5];
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT rutCliente,nombre,paterno,telefono,fechaingreso FROM Cliente WHERE nombre='"+nombre+"' OR paterno='"+apellido+"'");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT rutCliente,nombre,paterno,telefono,fechaingreso FROM cliente WHERE nombre='"+nombre+"' OR paterno='"+apellido+"'");
             //pstm.setString(1, nombre);
             //pstm.setString(2, apellido);
             ResultSet res = pstm.executeQuery();
@@ -576,43 +649,9 @@ public class FuncionesSQL {
         return data;
     }
     
-    public Object [][] getCita(){
-        int posid = 0;
-        try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM Cita");
-            ResultSet res = pstm.executeQuery();
-            res.next();
-            posid = res.getInt("total");
-            res.close();
-            }catch(SQLException e){
-                JOptionPane.showMessageDialog(null, e);
-        }
-        Object[][] data = new String[posid][4];
-        try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idCita,nombre,observacion,fecha FROM `Cita` WHERE `fecha` =  '2013-10-06 08:00:00' ORDER BY idCita");
-            ResultSet res = pstm.executeQuery();
-            int increment = 0;
-            while(res.next()){
-                String estId = res.getString("idCita");
-                String estNombre = res.getString("nombre");
-                String estObservacion = res.getString("observacion");
-                String estFecha = res.getString("fecha");
-                data[increment][0] = estId;
-                data[increment][1] = estNombre;
-                data[increment][2] = estObservacion;
-                data[increment][3] = estFecha;
-                increment++;
-            }
-            res.close();
-            }catch(SQLException e){
-                JOptionPane.showMessageDialog(null, e);
-        }
-        return data;
-    }
-    
     public void delNotifiacion(String dato,String fecha){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("delete from Agenda where nombre='"+dato+"'and fecha='"+fecha+"'");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("delete from agenda where nombre='"+dato+"'and fecha='"+fecha+"'");
             pstm.execute();
             pstm.close();
         }catch(SQLException se){
@@ -622,7 +661,7 @@ public class FuncionesSQL {
     
     public void delCotizacion(String idCotizacion){
         try{
-            PreparedStatement pstm = conn.getConnection().prepareStatement("DELETE FROM Cotizacion WHERE idCotizacion='"+idCotizacion+"'");
+            PreparedStatement pstm = conn.getConnection().prepareStatement("DELETE FROM cotizacion WHERE idCotizacion='"+idCotizacion+"'");
             pstm.execute();
             pstm.close();
         }catch(SQLException e){

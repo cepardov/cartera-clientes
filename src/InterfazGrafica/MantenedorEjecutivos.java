@@ -46,7 +46,7 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Financiamiento ORDER BY idFinanciamiento");
+            ResultSet rs = st.executeQuery("SELECT * FROM financiamiento ORDER BY idFinanciamiento");
             modeloCombo.addElement("Seleccione");
             while (rs.next()) {
                 modeloCombo.addElement(rs.getObject("nombre"));
@@ -54,9 +54,9 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
             rs.close();
             this.cbfinanciamiento.setModel(modeloCombo);
         } catch (SQLException ex) {
-            Logger.getLogger(Cotizacion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MantenedorEjecutivos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Cotizacion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MantenedorEjecutivos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

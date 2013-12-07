@@ -25,13 +25,15 @@ import javax.swing.table.TableColumn;
  * @author cepardov
  */
 public class ControlCliente extends javax.swing.JInternalFrame {
-    FuncionesSystem fs=new FuncionesSystem();
-    FuncionesSQL data=new FuncionesSQL();
-    String titleframe="Centro de Control Cliente";
+
+    FuncionesSystem fs = new FuncionesSystem();
+    FuncionesSQL data = new FuncionesSQL();
+    String titleframe = "Centro de Control Cliente";
     Object[][] dtPrev;
-    Object[][] dtPrev2=null;
+    Object[][] dtPrev2 = null;
     String idcotizacion;
     int fila;
+
     /**
      * Creates new form NuevoCliente
      */
@@ -43,58 +45,58 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         this.getComboCredito();
         this.updateClearTabla();
     }
-    
-    private void updateTablaHistoria(String rutCliente){  
-        String[] columNames = {"Fecha","Observación"};
+
+    private void updateTablaHistoria(String rutCliente) {
+        String[] columNames = {"Fecha", "Observación"};
         dtPrev = data.getHistorialCliente(rutCliente);
-        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
-        tablahistoria.setModel(datos); 
+        DefaultTableModel datos = new DefaultTableModel(dtPrev, columNames);
+        tablahistoria.setModel(datos);
         TableColumn columna = tablahistoria.getColumn("Fecha");
     }
-    
-    private void updateTablaAgenda(String rutCliente){  
-        String[] columNames = {"ID","Fecha","Tipo","Observación"};
+
+    private void updateTablaAgenda(String rutCliente) {
+        String[] columNames = {"ID", "Fecha", "Tipo", "Observación"};
         dtPrev = data.getAgendamiento(rutCliente);
-        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
-        tablaAgenda.setModel(datos); 
+        DefaultTableModel datos = new DefaultTableModel(dtPrev, columNames);
+        tablaAgenda.setModel(datos);
         TableColumn columna = tablaAgenda.getColumn("Fecha");
     }
-    
-    private void updateClearTabla(){  
+
+    private void updateClearTabla() {
         String[] columNames = {"Sin Datos"};
-        DefaultTableModel datos = new DefaultTableModel(dtPrev2,columNames);                        
+        DefaultTableModel datos = new DefaultTableModel(dtPrev2, columNames);
         tablahistoria.setModel(datos);
         tablacotizacion.setModel(datos);
         tablaAgenda.setModel(datos);
         TableColumn columna = tablahistoria.getColumn("Sin Datos");
     }
-    
-    private void updateTablaCotizacion(String rutCliente){  
-        String[] columNames = {"ID","Fecha","Marca","Modelo","Credito","Ejecutivo","Tipo","Neto","Desc.","IVA","Total","Obaservaciones"};
+
+    private void updateTablaCotizacion(String rutCliente) {
+        String[] columNames = {"ID", "Fecha", "Marca", "Modelo", "Credito", "Ejecutivo", "Tipo", "Neto", "Desc.", "IVA", "Total", "Obaservaciones"};
         dtPrev = data.getCotizacionCliente(rutCliente);
-        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
-        tablacotizacion.setModel(datos); 
+        DefaultTableModel datos = new DefaultTableModel(dtPrev, columNames);
+        tablacotizacion.setModel(datos);
         TableColumn columna = tablacotizacion.getColumn("Fecha");
     }
-    
-    public void calculo(){
-        int valor=Integer.parseInt(this.txtNeto.getText());
-        int desc=Integer.parseInt(this.txtDesc.getText());
-        int piva=Integer.parseInt(this.txtIva.getText());
-        int neto=valor-desc;
-        int iva=neto*piva/100;
-        int total=neto+iva;
-        
+
+    public void calculo() {
+        int valor = Integer.parseInt(this.txtNeto.getText());
+        int desc = Integer.parseInt(this.txtDesc.getText());
+        int piva = Integer.parseInt(this.txtIva.getText());
+        int neto = valor - desc;
+        int iva = neto * piva / 100;
+        int total = neto + iva;
+
         this.txtTotal.setText(Integer.toString(total));
     }
-    
-    private void getComboMarcas(){
-        try{
+
+    private void getComboMarcas() {
+        try {
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Marca");
+            ResultSet rs = st.executeQuery("SELECT * FROM marca");
             modeloCombo.addElement("Seleccione");
             while (rs.next()) {
                 modeloCombo.addElement(rs.getObject("nombre"));
@@ -107,14 +109,14 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void getComboModelo(int marca){
-        try{
+
+    private void getComboModelo(int marca) {
+        try {
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Modelo WHERE idmarca='"+marca+"'");
+            ResultSet rs = st.executeQuery("SELECT * FROM modelo WHERE idMarca='" + marca + "'");
             modeloCombo.addElement("Seleccione");
             while (rs.next()) {
                 modeloCombo.addElement(rs.getObject("nombre"));
@@ -127,14 +129,14 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void getComboCredito(){
-        try{
+
+    private void getComboCredito() {
+        try {
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Financiamiento");
+            ResultSet rs = st.executeQuery("SELECT * FROM financiamiento");
             modeloCombo.addElement("Seleccione");
             while (rs.next()) {
                 modeloCombo.addElement(rs.getObject("nombre"));
@@ -147,14 +149,14 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void getComboEjecutivo(int credito){
-        try{
+
+    private void getComboEjecutivo(int credito) {
+        try {
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
             Class.forName("com.mysql.jdbc.Driver");
             Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM ejecutivo WHERE idFinanciamiento='"+credito+"'");
+            ResultSet rs = st.executeQuery("SELECT * FROM ejecutivo WHERE idFinanciamiento='" + credito + "'");
             modeloCombo.addElement("Seleccione");
             while (rs.next()) {
                 modeloCombo.addElement(rs.getObject("nombre"));
@@ -167,8 +169,8 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void clear(){
+
+    public void clear() {
         this.txtnombre.setText("");
         this.txtpaterno.setText("");
         this.txtmaterno.setText("");
@@ -180,13 +182,13 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         this.lblfecha.setText("");
         this.setTitle(titleframe);
     }
-    
-    public void getCliente(String rut) throws ClassNotFoundException, SQLException{
-        System.out.println("rut="+rut);
+
+    public void getCliente(String rut) throws ClassNotFoundException, SQLException {
+        System.out.println("rut=" + rut);
         Class.forName("com.mysql.jdbc.Driver");
         Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
         Statement st = conexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM Cliente WHERE rutCliente='"+rut+"'");
+        ResultSet rs = st.executeQuery("SELECT * FROM cliente WHERE rutCliente='" + rut + "'");
         while (rs.next()) {
             this.txtnombre.setText(rs.getObject("nombre").toString());
             this.txtpaterno.setText(rs.getObject("paterno").toString());
@@ -196,24 +198,23 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             this.txtciudad.setText(rs.getObject("ciudad").toString());
             this.txttelefono.setText(rs.getObject("telefono").toString());
             this.txtemail.setText(rs.getObject("email").toString());
-            this.lblfecha.setText("Fecha de Ingreso: "+rs.getObject("fechaIngreso").toString());
-            }
+            this.lblfecha.setText("Fecha de Ingreso: " + rs.getObject("fechaIngreso").toString());
+        }
         rs.close();
-        if(this.lblfecha.getText().isEmpty()){
+        if (this.lblfecha.getText().isEmpty()) {
             this.btnupdate.setVisible(false);
             this.btnsave.setVisible(true);
             this.lblfecha.setText("Cliente no encontrado!");
             this.btnsavecotiza.setEnabled(false);
             this.btnmodifcotiza.setEnabled(false);
             this.btndelcotiza.setEnabled(false);
-        }
-        else{
+        } else {
             this.btnsave.setVisible(false);
             this.btnupdate.setVisible(true);
             this.btnsavecotiza.setEnabled(true);
             this.btnmodifcotiza.setEnabled(true);
             this.btndelcotiza.setEnabled(true);
-            this.setTitle(titleframe+" ["+this.txtnombre.getText()+" "+this.txtpaterno.getText()+"] - Estado ["+this.cbEstado.getSelectedItem().toString()+"]");
+            this.setTitle(titleframe + " [" + this.txtnombre.getText() + " " + this.txtpaterno.getText() + "] - Estado [" + this.cbEstado.getSelectedItem().toString() + "]");
         }
     }
 
@@ -903,7 +904,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         tab.addTab("Agendamiento", tabAgenda);
@@ -922,7 +923,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -933,27 +934,27 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         this.txtrutCliente.setBackground(Color.white);
         this.txtnombre.setBackground(Color.white);
         this.txttelefono.setBackground(Color.white);
-        if(this.txtrutCliente.getText().equals("")){
+        if (this.txtrutCliente.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "RUT o ROL no se ha introducido o no se ha escrito correctamente...\nEl formato de ingreso son solo numeros y k ejemplo:\n99999999k", "¡ups! Algo salio mal durante la verificacion de datos...", JOptionPane.ERROR_MESSAGE);
             this.txtrutCliente.setBackground(Color.getHSBColor(254, 46, 38));
-        }else if(this.txtnombre.getText().equals("")){
+        } else if (this.txtnombre.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "El campo NOMBRE o RAZÓN SOCIAL es obligatorio para registrar el cliente\nCorrija e intente nuevamente.", "¡ups! Algo salio mal durante la verificacion de datos...", JOptionPane.ERROR_MESSAGE);
             this.txtnombre.setBackground(Color.getHSBColor(254, 46, 38));
-        }else if(this.txttelefono.getText().equals("")){
+        } else if (this.txttelefono.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Es necesario mantener algún lazo de comunicación con el cliente, por esta razón debe ingrezar un numero de contacto\nSi no desea agregar un numero ingrese el numero 0 (cero)", "¡ups! Algo salio mal durante la verificacion de datos...", JOptionPane.WARNING_MESSAGE);
             this.txttelefono.setBackground(Color.getHSBColor(254, 46, 38));
-        }else{
-            String rutCliente=this.txtrutCliente.getText();
-            String nombre=this.txtnombre.getText();
-            String paterno=this.txtpaterno.getText();
-            String materno=this.txtmaterno.getText();
-            String Estado=this.cbEstado.getSelectedItem().toString();
-            String direccion=this.txtdireccion.getText();
-            String ciudad=this.txtciudad.getText();
-            String telefono=this.txttelefono.getText();
-            String email=this.txtemail.getText();
-            String fechaIngreso=fs.fechahora();
-            
+        } else {
+            String rutCliente = this.txtrutCliente.getText();
+            String nombre = this.txtnombre.getText();
+            String paterno = this.txtpaterno.getText();
+            String materno = this.txtmaterno.getText();
+            String Estado = this.cbEstado.getSelectedItem().toString();
+            String direccion = this.txtdireccion.getText();
+            String ciudad = this.txtciudad.getText();
+            String telefono = this.txttelefono.getText();
+            String email = this.txtemail.getText();
+            String fechaIngreso = fs.fechahora();
+
             data.addCliente(rutCliente, nombre, paterno, materno, Estado, direccion, ciudad, telefono, email, fechaIngreso);
         }
     }//GEN-LAST:event_btnsaveActionPerformed
@@ -961,7 +962,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         this.clear();
-        String rutCliente=this.txtrutCliente.getText();
+        String rutCliente = this.txtrutCliente.getText();
         try {
             this.getCliente(rutCliente);
         } catch (ClassNotFoundException ex) {
@@ -986,14 +987,14 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         String ciudad = this.txtciudad.getText();
         String telefono = this.txttelefono.getText();
         String email = this.txtemail.getText();
-        
+
         data.updateCliente(rutCliente, nombre, paterno, materno, Estado, direccion, ciudad, telefono, email);
     }//GEN-LAST:event_btnupdateActionPerformed
 
     private void txtrutClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtrutClienteFocusLost
         // TODO add your handling code here:
         this.clear();
-        String rutCliente=this.txtrutCliente.getText();
+        String rutCliente = this.txtrutCliente.getText();
         try {
             this.getCliente(rutCliente);
         } catch (ClassNotFoundException ex) {
@@ -1009,8 +1010,25 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
     private void cbMarcasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMarcasItemStateChanged
         // TODO add your handling code here:
-        int marca=this.cbMarcas.getSelectedIndex();
-        this.getComboModelo(marca);
+        int idMarca = 0;
+        String marca = this.cbMarcas.getSelectedItem().toString();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT idMarca FROM marca WHERE nombre='" + marca + "'");
+            while (rs.next()) {
+                idMarca = Integer.parseInt(rs.getObject("idMarca").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+
+        this.getComboModelo(idMarca);
     }//GEN-LAST:event_cbMarcasItemStateChanged
 
     private void txtNetoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNetoFocusLost
@@ -1030,11 +1048,11 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
     private void cbFinanciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbFinanciaItemStateChanged
         // TODO add your handling code here:
-        if(this.cbFinancia.getSelectedItem()=="Credito"){
+        if (this.cbFinancia.getSelectedItem() == "Credito") {
             this.getComboCredito();
             this.cbCredito.setEnabled(true);
             this.cbEjecutivo.setEnabled(true);
-        }else{
+        } else {
             this.cbCredito.setEnabled(false);
             this.cbEjecutivo.setEnabled(false);
         }
@@ -1042,31 +1060,31 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
     private void cbCreditoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCreditoItemStateChanged
         // TODO add your handling code here:
-        int credito=this.cbCredito.getSelectedIndex();
+        int credito = this.cbCredito.getSelectedIndex();
         this.getComboEjecutivo(credito);
     }//GEN-LAST:event_cbCreditoItemStateChanged
 
     private void btnsavecotizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsavecotizaActionPerformed
         // TODO add your handling code here:
-        String rutCliente=this.txtrutCliente.getText();
-        int idMarca=this.cbMarcas.getSelectedIndex();
-        int idModelo=this.cbModelo.getSelectedIndex();
-        int idFinanciamiento=this.cbCredito.getSelectedIndex();
-        int idEjecutivo=this.cbEjecutivo.getSelectedIndex();
-        String tipo=this.cbFinancia.getSelectedItem().toString();
-        String neto=this.txtNeto.getText();
-        String descuento=this.txtDesc.getText();
-        String iva=this.txtIva.getText();
-        String total=this.txtTotal.getText();
-        String observaciones=this.txtobs.getText();
-        String fecha=fs.fechahora();
-        
+        String rutCliente = this.txtrutCliente.getText();
+        int idMarca = this.cbMarcas.getSelectedIndex();
+        int idModelo = this.cbModelo.getSelectedIndex();
+        int idFinanciamiento = this.cbCredito.getSelectedIndex();
+        int idEjecutivo = this.cbEjecutivo.getSelectedIndex();
+        String tipo = this.cbFinancia.getSelectedItem().toString();
+        String neto = this.txtNeto.getText();
+        String descuento = this.txtDesc.getText();
+        String iva = this.txtIva.getText();
+        String total = this.txtTotal.getText();
+        String observaciones = this.txtobs.getText();
+        String fecha = fs.fechahora();
+
         data.addCotizacion(rutCliente, idMarca, idModelo, idFinanciamiento, idEjecutivo, tipo, neto, descuento, iva, total, observaciones, fecha);
         this.updateTablaCotizacion(rutCliente);
-        
-        data.addHistoria(rutCliente, fecha, "Se crea cotizacion "+tipo+" vehiculo "+this.cbMarcas.getSelectedItem().toString()+" "+this.cbModelo.getSelectedItem().toString());
+
+        data.addHistoria(rutCliente, fecha, "Se crea cotizacion " + tipo + " vehiculo " + this.cbMarcas.getSelectedItem().toString() + " " + this.cbModelo.getSelectedItem().toString());
         this.updateTablaHistoria(rutCliente);
-        
+
         data.updateClienteEstado(rutCliente, "Cotización");
         this.btnBuscarActionPerformed(evt);
     }//GEN-LAST:event_btnsavecotizaActionPerformed
@@ -1074,8 +1092,8 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     private void tablacotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablacotizacionMouseClicked
         // TODO add your handling code here:
         fila = tablacotizacion.rowAtPoint(evt.getPoint());
-        if (fila > -1){
-            idcotizacion=String.valueOf(tablacotizacion.getValueAt(fila, 0));
+        if (fila > -1) {
+            idcotizacion = String.valueOf(tablacotizacion.getValueAt(fila, 0));
             this.cbMarcas.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 2))));
             this.cbModelo.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 3))));
             this.txtNeto.setText(String.valueOf(tablacotizacion.getValueAt(fila, 7)));
@@ -1086,63 +1104,62 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             this.cbCredito.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 4))));
             this.cbEjecutivo.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 5))));
             this.txtobs.setText(String.valueOf(tablacotizacion.getValueAt(fila, 11)));
-            System.out.println("IdCotizacion Selected= "+idcotizacion);
+            System.out.println("IdCotizacion Selected= " + idcotizacion);
         }
     }//GEN-LAST:event_tablacotizacionMouseClicked
 
     private void btnmodifcotizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifcotizaActionPerformed
         // TODO add your handling code here:
-        String idCotizacion=this.idcotizacion;
-        String rutCliente=this.txtrutCliente.getText();
-        int idMarca=this.cbMarcas.getSelectedIndex();
-        int idModelo=this.cbModelo.getSelectedIndex();
-        int idFinanciamiento=this.cbCredito.getSelectedIndex();
-        int idEjecutivo=this.cbEjecutivo.getSelectedIndex();
-        String tipo=this.cbFinancia.getSelectedItem().toString();
-        String neto=this.txtNeto.getText();
-        String descuento=this.txtDesc.getText();
-        String iva=this.txtIva.getText();
-        String total=this.txtTotal.getText();
-        String observaciones=this.txtobs.getText();
-        
+        String idCotizacion = this.idcotizacion;
+        String rutCliente = this.txtrutCliente.getText();
+        int idMarca = this.cbMarcas.getSelectedIndex();
+        int idModelo = this.cbModelo.getSelectedIndex();
+        int idFinanciamiento = this.cbCredito.getSelectedIndex();
+        int idEjecutivo = this.cbEjecutivo.getSelectedIndex();
+        String tipo = this.cbFinancia.getSelectedItem().toString();
+        String neto = this.txtNeto.getText();
+        String descuento = this.txtDesc.getText();
+        String iva = this.txtIva.getText();
+        String total = this.txtTotal.getText();
+        String observaciones = this.txtobs.getText();
+
         data.updateCotizacion(idCotizacion, idMarca, idModelo, idFinanciamiento, idEjecutivo, tipo, neto, descuento, iva, total, observaciones, rutCliente);
         this.updateTablaCotizacion(rutCliente);
     }//GEN-LAST:event_btnmodifcotizaActionPerformed
 
     private void btndelcotizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndelcotizaActionPerformed
         // TODO add your handling code here:
-        String idCotizacion=this.idcotizacion;
-        String rutCliente=this.txtrutCliente.getText();
-        
+        String idCotizacion = this.idcotizacion;
+        String rutCliente = this.txtrutCliente.getText();
+
         data.delCotizacion(idCotizacion);
         this.updateTablaCotizacion(rutCliente);
     }//GEN-LAST:event_btndelcotizaActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        String rutCliente=this.txtrutCliente.getText();
-        String nombre=this.txtnombre.getText();
-        String paterno=this.txtpaterno.getText();
-        String materno=this.txtmaterno.getText();
-        String tipo=this.cbTipoAgendamiento.getSelectedItem().toString();
-        String observacion=this.txtobservacionAgenda.getText();
-        
-        String hora=this.cbHora.getSelectedItem().toString();
-        String minutos=this.cbMinutos.getSelectedItem().toString();
-        
+        String rutCliente = this.txtrutCliente.getText();
+        String nombre = this.txtnombre.getText();
+        String paterno = this.txtpaterno.getText();
+        String materno = this.txtmaterno.getText();
+        String tipo = this.cbTipoAgendamiento.getSelectedItem().toString();
+        String observacion = this.txtobservacionAgenda.getText();
+
+        String hora = this.cbHora.getSelectedItem().toString();
+        String minutos = this.cbMinutos.getSelectedItem().toString();
+
         SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
-        java.util.Date fecha=this.txtfechaAgenda.getDate();
-        String fechahora=formato.format(fecha)+" "+hora+":"+minutos+":00";
-        
-        String fechaoperacion=fs.fechahora();
-        
+        java.util.Date fecha = this.txtfechaAgenda.getDate();
+        String fechahora = formato.format(fecha) + " " + hora + ":" + minutos + ":00";
+
+        String fechaoperacion = fs.fechahora();
+
         data.addAgendamiento(rutCliente, nombre, paterno, materno, tipo, observacion, fechahora);
-        data.addHistoria(rutCliente, fechaoperacion, "Agenda: "+tipo+" el "+fechahora+" con Obs: "+observacion);
-        
+        data.addHistoria(rutCliente, fechaoperacion, "Agenda: " + tipo + " el " + fechahora + " con Obs: " + observacion);
+
         this.updateTablaAgenda(rutCliente);
         this.updateTablaHistoria(rutCliente);
     }//GEN-LAST:event_jButton4ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btndelcotiza;
