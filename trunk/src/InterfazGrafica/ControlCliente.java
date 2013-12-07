@@ -12,10 +12,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -25,6 +28,10 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     FuncionesSystem fs=new FuncionesSystem();
     FuncionesSQL data=new FuncionesSQL();
     String titleframe="Centro de Control Cliente";
+    Object[][] dtPrev;
+    Object[][] dtPrev2=null;
+    String idcotizacion;
+    int fila;
     /**
      * Creates new form NuevoCliente
      */
@@ -34,6 +41,31 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         this.btnupdate.setVisible(false);
         this.getComboMarcas();
         this.getComboCredito();
+        this.updateClearTabla();
+    }
+    
+    private void updateTablaHistoria(String rutCliente){  
+        String[] columNames = {"Fecha","Observación"};
+        dtPrev = data.getHistorialCliente(rutCliente);
+        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
+        tablahistoria.setModel(datos); 
+        TableColumn columna = tablahistoria.getColumn("Fecha");
+    }
+    
+    private void updateClearTabla(){  
+        String[] columNames = {"Sin Datos"};
+        DefaultTableModel datos = new DefaultTableModel(dtPrev2,columNames);                        
+        tablahistoria.setModel(datos);
+        tablacotizacion.setModel(datos);
+        TableColumn columna = tablahistoria.getColumn("Sin Datos");
+    }
+    
+    private void updateTablaCotizacion(String rutCliente){  
+        String[] columNames = {"ID","Fecha","Marca","Modelo","Credito","Ejecutivo","Tipo","Neto","Desc.","IVA","Total","Obaservaciones"};
+        dtPrev = data.getCotizacionCliente(rutCliente);
+        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
+        tablacotizacion.setModel(datos); 
+        TableColumn columna = tablacotizacion.getColumn("Fecha");
     }
     
     public void calculo(){
@@ -162,10 +194,16 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             this.btnupdate.setVisible(false);
             this.btnsave.setVisible(true);
             this.lblfecha.setText("Cliente no encontrado!");
+            this.btnsavecotiza.setEnabled(false);
+            this.btnmodifcotiza.setEnabled(false);
+            this.btndelcotiza.setEnabled(false);
         }
         else{
             this.btnsave.setVisible(false);
             this.btnupdate.setVisible(true);
+            this.btnsavecotiza.setEnabled(true);
+            this.btnmodifcotiza.setEnabled(true);
+            this.btndelcotiza.setEnabled(true);
             this.setTitle(titleframe+" ["+this.txtnombre.getText()+" "+this.txtpaterno.getText()+"] - Estado ["+this.cbEstado.getSelectedItem().toString()+"]");
         }
     }
@@ -204,8 +242,8 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         btnsave = new javax.swing.JButton();
         btnupdate = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablahistorial = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablahistoria = new javax.swing.JTable();
         tabCotiazcion = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -225,7 +263,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         jLabel24 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tablacotizacion = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         cbCredito = new javax.swing.JComboBox();
         jLabel17 = new javax.swing.JLabel();
@@ -233,30 +271,31 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         cbEjecutivo = new javax.swing.JComboBox();
         jLabel19 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtobs = new javax.swing.JTextArea();
+        btnsavecotiza = new javax.swing.JButton();
+        btnmodifcotiza = new javax.swing.JButton();
+        btndelcotiza = new javax.swing.JButton();
         tabAgenda = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jComboBox4 = new javax.swing.JComboBox();
+        cbTipoAgendamiento = new javax.swing.JComboBox();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        txtfechaAgenda = new com.toedter.calendar.JDateChooser();
         jLabel22 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox();
-        jComboBox6 = new javax.swing.JComboBox();
-        jTextField1 = new javax.swing.JTextField();
+        cbHora = new javax.swing.JComboBox();
+        cbMinutos = new javax.swing.JComboBox();
+        txtobservacionAgenda = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablanotificacion = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
+        setResizable(true);
         setTitle("Centro de Control Clientes");
-        setMaximumSize(new java.awt.Dimension(710, 2147483647));
+        setMaximumSize(new java.awt.Dimension(1024, 710));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Personales"));
 
@@ -316,30 +355,30 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Historial Cliente"));
 
-        tablahistorial.setModel(new javax.swing.table.DefaultTableModel(
+        tablahistoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Fecha", "Observaciones"
             }
         ));
-        jScrollPane1.setViewportView(tablahistorial);
+        jScrollPane5.setViewportView(tablahistoria);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -350,18 +389,6 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnsave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnupdate)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txttelefono)
-                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -404,7 +431,21 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblfecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(lblfecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txttelefono))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnsave)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnupdate)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -582,7 +623,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Vehículos Cotizados"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tablacotizacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -593,7 +634,12 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        tablacotizacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablacotizacionMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tablacotizacion);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -621,19 +667,38 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jLabel18.setText("Ejecutivo");
 
+        cbEjecutivo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
         cbEjecutivo.setEnabled(false);
 
         jLabel19.setText("Observaciones");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        txtobs.setColumns(20);
+        txtobs.setRows(5);
+        jScrollPane3.setViewportView(txtobs);
 
-        jButton1.setText("Guardar");
+        btnsavecotiza.setText("Guardar");
+        btnsavecotiza.setEnabled(false);
+        btnsavecotiza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsavecotizaActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Modificar");
+        btnmodifcotiza.setText("Modificar");
+        btnmodifcotiza.setEnabled(false);
+        btnmodifcotiza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnmodifcotizaActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Eliminar");
+        btndelcotiza.setText("Eliminar");
+        btndelcotiza.setEnabled(false);
+        btndelcotiza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndelcotizaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -657,11 +722,11 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(btnsavecotiza)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnmodifcotiza)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(btndelcotiza)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -678,9 +743,9 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3))
+                            .addComponent(btnsavecotiza)
+                            .addComponent(btnmodifcotiza)
+                            .addComponent(btndelcotiza))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -711,7 +776,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Agendamiento de Cliente"));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Comunicarse", "Citar", "Llegada de Unidad", "Entrega de Unidad", "Facturación", "Solicitud", "Otro" }));
+        cbTipoAgendamiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Comunicarse", "Citar", "Llegada de Unidad", "Entrega de Unidad", "Facturación", "Solicitud", "Otro" }));
 
         jLabel20.setText("Tipo");
 
@@ -719,13 +784,18 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jLabel22.setText("a las");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "H", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        cbHora.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "H", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "M", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        cbMinutos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "M", "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
 
         jLabel23.setText("Observación");
 
         jButton4.setText("Confirmar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -737,24 +807,24 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1))
+                        .addComponent(txtobservacionAgenda))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jButton4)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbTipoAgendamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtfechaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel22)
                         .addGap(2, 2, 2)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbHora, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -762,17 +832,17 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbTipoAgendamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel20)
                         .addComponent(jLabel21))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtfechaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel22)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtobservacionAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
@@ -781,18 +851,18 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Notificaciones del Cliente"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablanotificacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tipo", "Fecha", "Observación"
             }
         ));
-        jScrollPane4.setViewportView(jTable1);
+        jScrollPane4.setViewportView(tablanotificacion);
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -840,7 +910,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -886,7 +956,10 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             Logger.getLogger(ControlCliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ControlCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }     
+        }
+        this.updateClearTabla();
+        this.updateTablaHistoria(rutCliente);
+        this.updateTablaCotizacion(rutCliente);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
@@ -915,6 +988,9 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ControlCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.updateClearTabla();
+        this.updateTablaHistoria(rutCliente);
+        this.updateTablaCotizacion(rutCliente);
     }//GEN-LAST:event_txtrutClienteFocusLost
 
     private void cbMarcasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMarcasItemStateChanged
@@ -956,24 +1032,117 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         this.getComboEjecutivo(credito);
     }//GEN-LAST:event_cbCreditoItemStateChanged
 
+    private void btnsavecotizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsavecotizaActionPerformed
+        // TODO add your handling code here:
+        String rutCliente=this.txtrutCliente.getText();
+        int idMarca=this.cbMarcas.getSelectedIndex();
+        int idModelo=this.cbModelo.getSelectedIndex();
+        int idFinanciamiento=this.cbCredito.getSelectedIndex();
+        int idEjecutivo=this.cbEjecutivo.getSelectedIndex();
+        String tipo=this.cbFinancia.getSelectedItem().toString();
+        String neto=this.txtNeto.getText();
+        String descuento=this.txtDesc.getText();
+        String iva=this.txtIva.getText();
+        String total=this.txtTotal.getText();
+        String observaciones=this.txtobs.getText();
+        String fecha=fs.fechahora();
+        
+        data.addCotizacion(rutCliente, idMarca, idModelo, idFinanciamiento, idEjecutivo, tipo, neto, descuento, iva, total, observaciones, fecha);
+        this.updateTablaCotizacion(rutCliente);
+        
+        data.addHistoria(rutCliente, fecha, "Se crea cotizacion "+tipo+" vehiculo "+this.cbMarcas.getSelectedItem().toString()+" "+this.cbModelo.getSelectedItem().toString());
+        this.updateTablaHistoria(rutCliente);
+        
+        data.updateClienteEstado(rutCliente, "Cotización");
+        this.btnBuscarActionPerformed(evt);
+    }//GEN-LAST:event_btnsavecotizaActionPerformed
+
+    private void tablacotizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablacotizacionMouseClicked
+        // TODO add your handling code here:
+        fila = tablacotizacion.rowAtPoint(evt.getPoint());
+        if (fila > -1){
+            idcotizacion=String.valueOf(tablacotizacion.getValueAt(fila, 0));
+            this.cbMarcas.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 2))));
+            this.cbModelo.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 3))));
+            this.txtNeto.setText(String.valueOf(tablacotizacion.getValueAt(fila, 7)));
+            this.txtDesc.setText(String.valueOf(tablacotizacion.getValueAt(fila, 8)));
+            this.txtIva.setText(String.valueOf(tablacotizacion.getValueAt(fila, 9)));
+            this.txtTotal.setText(String.valueOf(tablacotizacion.getValueAt(fila, 10)));
+            this.cbFinancia.setSelectedItem(String.valueOf(tablacotizacion.getValueAt(fila, 6)));
+            this.cbCredito.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 4))));
+            this.cbEjecutivo.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 5))));
+            this.txtobs.setText(String.valueOf(tablacotizacion.getValueAt(fila, 11)));
+            System.out.println("IdCotizacion Selected= "+idcotizacion);
+        }
+    }//GEN-LAST:event_tablacotizacionMouseClicked
+
+    private void btnmodifcotizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifcotizaActionPerformed
+        // TODO add your handling code here:
+        String idCotizacion=this.idcotizacion;
+        String rutCliente=this.txtrutCliente.getText();
+        int idMarca=this.cbMarcas.getSelectedIndex();
+        int idModelo=this.cbModelo.getSelectedIndex();
+        int idFinanciamiento=this.cbCredito.getSelectedIndex();
+        int idEjecutivo=this.cbEjecutivo.getSelectedIndex();
+        String tipo=this.cbFinancia.getSelectedItem().toString();
+        String neto=this.txtNeto.getText();
+        String descuento=this.txtDesc.getText();
+        String iva=this.txtIva.getText();
+        String total=this.txtTotal.getText();
+        String observaciones=this.txtobs.getText();
+        
+        data.updateCotizacion(idCotizacion, idMarca, idModelo, idFinanciamiento, idEjecutivo, tipo, neto, descuento, iva, total, observaciones, rutCliente);
+        this.updateTablaCotizacion(rutCliente);
+    }//GEN-LAST:event_btnmodifcotizaActionPerformed
+
+    private void btndelcotizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndelcotizaActionPerformed
+        // TODO add your handling code here:
+        String idCotizacion=this.idcotizacion;
+        String rutCliente=this.txtrutCliente.getText();
+        
+        data.delCotizacion(idCotizacion);
+        this.updateTablaCotizacion(rutCliente);
+    }//GEN-LAST:event_btndelcotizaActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String rutCliente=this.txtrutCliente.getText();
+        String nombre=this.txtnombre.getText();
+        String paterno=this.txtpaterno.getText();
+        String materno=this.txtmaterno.getText();
+        String tipo=this.cbTipoAgendamiento.getSelectedItem().toString();
+        String observacion=this.txtobservacionAgenda.getText();
+        
+        String hora=this.cbHora.getSelectedItem().toString();
+        String minutos=this.cbMinutos.getSelectedItem().toString();
+        
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+        java.util.Date fecha=this.txtfechaAgenda.getDate();
+        String fechahora=formato.format(fecha)+" "+hora+":"+minutos+":00";
+        
+        String fechaoperacion=fs.fechahora();
+        
+        data.addAgendamiento(rutCliente, nombre, paterno, materno, tipo, observacion, fechahora);
+        data.addHistoria(rutCliente, fechaoperacion, "Agenda: "+tipo+" el "+fechahora+" con Obs: "+observacion);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btndelcotiza;
+    private javax.swing.JButton btnmodifcotiza;
     private javax.swing.JButton btnsave;
+    private javax.swing.JButton btnsavecotiza;
     private javax.swing.JButton btnupdate;
     private javax.swing.JComboBox cbCredito;
     private javax.swing.JComboBox cbEjecutivo;
     private javax.swing.JComboBox cbEstado;
     private javax.swing.JComboBox cbFinancia;
+    private javax.swing.JComboBox cbHora;
     private javax.swing.JComboBox cbMarcas;
+    private javax.swing.JComboBox cbMinutos;
     private javax.swing.JComboBox cbModelo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox cbTipoAgendamiento;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox jComboBox4;
-    private javax.swing.JComboBox jComboBox5;
-    private javax.swing.JComboBox jComboBox6;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1005,19 +1174,17 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel lblfecha;
     private javax.swing.JTabbedPane tab;
     private javax.swing.JPanel tabAgenda;
     private javax.swing.JPanel tabCotiazcion;
-    private javax.swing.JTable tablahistorial;
+    private javax.swing.JTable tablacotizacion;
+    private javax.swing.JTable tablahistoria;
+    private javax.swing.JTable tablanotificacion;
     private javax.swing.JFormattedTextField txtDesc;
     private javax.swing.JFormattedTextField txtIva;
     private javax.swing.JFormattedTextField txtNeto;
@@ -1025,8 +1192,11 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtciudad;
     private javax.swing.JTextField txtdireccion;
     private javax.swing.JTextField txtemail;
+    private com.toedter.calendar.JDateChooser txtfechaAgenda;
     private javax.swing.JTextField txtmaterno;
     private javax.swing.JTextField txtnombre;
+    private javax.swing.JTextArea txtobs;
+    private javax.swing.JTextField txtobservacionAgenda;
     private javax.swing.JTextField txtpaterno;
     private javax.swing.JFormattedTextField txtrutCliente;
     private javax.swing.JTextField txttelefono;
