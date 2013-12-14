@@ -24,6 +24,15 @@ public class BuscarCliente extends javax.swing.JInternalFrame {
      */
     public BuscarCliente() {
         initComponents();
+        this.BuscarClientesAll();
+    }
+    
+    public void BuscarClientesAll(){
+        String[] columNames = {"RUT Cliente","Nombre","Apellido","Telefono","Fecha Ingreso"};  
+        dtPrev = data.BuscarClienteAll();
+        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
+        tabla.setModel(datos); 
+        TableColumn columna = tabla.getColumn("Nombre");
     }
     /**
      * This method is called from within the constructor to initialize the form.
