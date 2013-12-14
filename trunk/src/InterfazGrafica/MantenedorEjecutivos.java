@@ -24,20 +24,23 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
     FuncionesSQL data=new FuncionesSQL();
     Object[][] dtPrev;
     int fila;
+    String idEjecutivo=null;
+    String idFinanciamiento1=null;
     /**
      * Creates new form MantenedorEjecutivos
      */
     public MantenedorEjecutivos() {
         initComponents();
         this.getComboFinan();
+        this.updateTabla();
     }
     
     private void updateTabla(){  
         String[] columNames = {"ID","Entidad Financiera","Nombre","Apellido","Telefono","E-Mail"};  
-        dtPrev = data.getFinanciamiento();
+        dtPrev = data.getEjecutivo();
         DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
         tabla.setModel(datos); 
-        TableColumn columna = tabla.getColumn("Nombre");
+        TableColumn columna = tabla.getColumn("ID");
     }
     
     private void getComboFinan(){
@@ -92,6 +95,11 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
         jLabel2.setText("Empresa Financiera");
 
         cbfinanciamiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbfinanciamiento.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbfinanciamientoItemStateChanged(evt);
+            }
+        });
 
         jLabel3.setText("Nombre");
 
@@ -195,6 +203,11 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,7 +226,7 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 14, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -228,15 +241,53 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int idFinanciamiento=this.cbfinanciamiento.getSelectedIndex();
+        int dato=0;
+        String idFinanciamiento=this.cbfinanciamiento.getSelectedItem().toString();
         System.out.println("id="+idFinanciamiento);
         String nombre=this.txtnombre.getText();
         String paterno=this.txtpaterno.getText();
         String telefono=this.txttelefono.getText();
         String email=this.txtemail.getText();
         
-        data.addEjecutivo(idFinanciamiento, nombre, paterno, telefono, email);
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM financiamiento WHERE nombre='"+idFinanciamiento+"'");
+            while (rs.next()) {
+                dato=Integer.parseInt(rs.getObject("idFinanciamiento").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        System.out.println("idFinanciamiento="+dato);
+        data.addEjecutivo(dato, nombre, paterno, telefono, email);
+        this.updateTabla();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        // TODO add your handling code here:
+        fila = tabla.rowAtPoint(evt.getPoint());
+        
+        
+        if (fila > -1){
+            idEjecutivo=String.valueOf(tabla.getValueAt(fila, 0));
+            idFinanciamiento1=String.valueOf(tabla.getValueAt(fila, 1));
+            this.txtnombre.setText(String.valueOf(tabla.getValueAt(fila, 2)));
+            this.txtpaterno.setText(String.valueOf(tabla.getValueAt(fila, 3)));
+            this.txttelefono.setText(String.valueOf(tabla.getValueAt(fila, 4)));
+            this.txtemail.setText(String.valueOf(tabla.getValueAt(fila, 5)));
+        }
+        
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void cbfinanciamientoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbfinanciamientoItemStateChanged
+        // TODO add your handling code here:
+        System.out.println("idFinanciamiento="+idFinanciamiento1);
+    }//GEN-LAST:event_cbfinanciamientoItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbfinanciamiento;
