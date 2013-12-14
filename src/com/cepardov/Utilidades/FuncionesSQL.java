@@ -327,6 +327,29 @@ public class FuncionesSQL {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
+    public void updateEjecutivo(String idEjecutivo, int idFinanciamiento, String nombre, String paterno, String telefono, String email) {
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update ejecutivo "
+                    + "set idFinanciamiento = ? ,"
+                    + "nombre = ? ,"
+                    + "paterno = ? ,"
+                    + "telefono = ? ,"
+                    + "email = ? "
+                    + "where idEjecutivo = ?");
+            pstm.setInt(1, idFinanciamiento);
+            pstm.setString(2, nombre);
+            pstm.setString(3, paterno);
+            pstm.setString(4, telefono);
+            pstm.setString(5, email);
+            pstm.setString(6, idEjecutivo);
+            pstm.execute();
+            pstm.close();
+            JOptionPane.showMessageDialog(null, "Trabajo realizado exitosamente.");
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+    }
 
     public Object[][] getMarca() {
         int posid = 0;
@@ -720,6 +743,26 @@ public class FuncionesSQL {
     public void delNotifiacion(String dato, String fecha) {
         try {
             PreparedStatement pstm = conn.getConnection().prepareStatement("delete from agenda where nombre='" + dato + "'and fecha='" + fecha + "'");
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+    }
+    
+    public void delEjecutivo(String nombre, String paterno) {
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("delete from ejecutivo where nombre='" + nombre + "'and paterno='" + paterno + "'");
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+    }
+    
+    public void delFinanciamiento(String idFinanciamiento) {
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("delete from financiamiento where idFinanciamiento='" + idFinanciamiento + "'");
             pstm.execute();
             pstm.close();
         } catch (SQLException se) {

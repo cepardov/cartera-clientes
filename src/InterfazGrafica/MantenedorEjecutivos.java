@@ -13,6 +13,8 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -90,6 +92,9 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
 
+        setClosable(true);
+        setTitle("Mantenedor de Ejecutivos");
+
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Ejecutivo Financiamiento"));
 
         jLabel2.setText("Empresa Financiera");
@@ -117,6 +122,11 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
         });
 
         jButton2.setText("Actualizar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Cerrar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +136,11 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
         });
 
         jButton4.setText("Eliminar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -226,7 +241,7 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 15, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -271,8 +286,6 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         // TODO add your handling code here:
         fila = tabla.rowAtPoint(evt.getPoint());
-        
-        
         if (fila > -1){
             idEjecutivo=String.valueOf(tabla.getValueAt(fila, 0));
             idFinanciamiento1=String.valueOf(tabla.getValueAt(fila, 1));
@@ -281,6 +294,20 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
             this.txttelefono.setText(String.valueOf(tabla.getValueAt(fila, 4)));
             this.txtemail.setText(String.valueOf(tabla.getValueAt(fila, 5)));
         }
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT nombre FROM financiamiento WHERE idFinanciamiento='"+idFinanciamiento1+"'");
+            while (rs.next()) {
+                this.cbfinanciamiento.setSelectedItem(rs.getObject("nombre").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
         
     }//GEN-LAST:event_tablaMouseClicked
 
@@ -288,6 +315,59 @@ public class MantenedorEjecutivos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         System.out.println("idFinanciamiento="+idFinanciamiento1);
     }//GEN-LAST:event_cbfinanciamientoItemStateChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        //actualiza
+        int dato=0;
+        String idFinanciamiento=this.cbfinanciamiento.getSelectedItem().toString();
+        System.out.println("id="+idFinanciamiento);
+        String nombre=this.txtnombre.getText();
+        String paterno=this.txtpaterno.getText();
+        String telefono=this.txttelefono.getText();
+        String email=this.txtemail.getText();
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM financiamiento WHERE nombre='"+idFinanciamiento+"'");
+            while (rs.next()) {
+                dato=Integer.parseInt(rs.getObject("idFinanciamiento").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        System.out.println("idFinanciamiento="+dato);
+        data.updateEjecutivo(idEjecutivo, dato, nombre, paterno, telefono, email);
+        this.updateTabla();
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        //elimina
+        
+        String nombre=this.txtnombre.getText();
+        String paterno=this.txtpaterno.getText();
+         if ( JOptionPane.showConfirmDialog(new JFrame(), 
+        "Esta Usted seguro de eliminar "+nombre+"?\n\nEs posible que sea necesaria al momento de corroborar un agendamiento.", 
+        "Confirmar Operación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { 
+
+        data.delEjecutivo(nombre, paterno);
+        this.txtnombre.setText("");
+        this.txtpaterno.setText("");
+        this.txttelefono.setText("");
+        this.txtemail.setText("");
+        this.cbfinanciamiento.setSelectedIndex(0);
+        }
+        updateTabla();
+        
+
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbfinanciamiento;

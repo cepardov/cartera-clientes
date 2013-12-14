@@ -33,6 +33,10 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     Object[][] dtPrev2 = null;
     String idcotizacion;
     int fila;
+    int datoFinanciamiento=0;
+    int datoEjecutivo=0;
+    int datoModelo=0;
+    int datoMarca = 0;
 
     /**
      * Creates new form NuevoCliente
@@ -820,9 +824,9 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addComponent(cbTipoAgendamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel21)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtfechaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(3, 3, 3)
+                        .addComponent(txtfechaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
                         .addComponent(jLabel22)
                         .addGap(2, 2, 2)
                         .addComponent(cbHora, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -901,10 +905,10 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             tabAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabAgendaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         tab.addTab("Agendamiento", tabAgenda);
@@ -923,7 +927,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -1010,7 +1014,6 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
     private void cbMarcasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMarcasItemStateChanged
         // TODO add your handling code here:
-        int idMarca = 0;
         String marca = this.cbMarcas.getSelectedItem().toString();
 
         try {
@@ -1019,7 +1022,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery("SELECT idMarca FROM marca WHERE nombre='" + marca + "'");
             while (rs.next()) {
-                idMarca = Integer.parseInt(rs.getObject("idMarca").toString());
+                datoMarca = Integer.parseInt(rs.getObject("idMarca").toString());
             }
             rs.close();
         } catch (SQLException se) {
@@ -1028,7 +1031,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             System.out.println(e);
         }
 
-        this.getComboModelo(idMarca);
+        this.getComboModelo(datoMarca);
     }//GEN-LAST:event_cbMarcasItemStateChanged
 
     private void txtNetoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNetoFocusLost
@@ -1060,17 +1063,33 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
     private void cbCreditoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCreditoItemStateChanged
         // TODO add your handling code here:
-        int credito = this.cbCredito.getSelectedIndex();
-        this.getComboEjecutivo(credito);
+        String idFinanciamiento=this.cbCredito.getSelectedItem().toString();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM financiamiento WHERE nombre='"+idFinanciamiento+"'");
+            while (rs.next()) {
+                datoFinanciamiento=Integer.parseInt(rs.getObject("idFinanciamiento").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        this.getComboEjecutivo(datoFinanciamiento);
     }//GEN-LAST:event_cbCreditoItemStateChanged
 
     private void btnsavecotizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsavecotizaActionPerformed
         // TODO add your handling code here:
+        
+        
         String rutCliente = this.txtrutCliente.getText();
-        int idMarca = this.cbMarcas.getSelectedIndex();
-        int idModelo = this.cbModelo.getSelectedIndex();
-        int idFinanciamiento = this.cbCredito.getSelectedIndex();
-        int idEjecutivo = this.cbEjecutivo.getSelectedIndex();
+        String idMarca = this.cbMarcas.getSelectedItem().toString();
+        String idModelo = this.cbModelo.getSelectedItem().toString();
+        String idFinanciamiento = this.cbCredito.getSelectedItem().toString();
+        String idEjecutivo = this.cbEjecutivo.getSelectedItem().toString();
         String tipo = this.cbFinancia.getSelectedItem().toString();
         String neto = this.txtNeto.getText();
         String descuento = this.txtDesc.getText();
@@ -1078,8 +1097,39 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         String total = this.txtTotal.getText();
         String observaciones = this.txtobs.getText();
         String fecha = fs.fechahora();
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM modelo WHERE nombre='"+idModelo+"'");
+            while (rs.next()) {
+                datoModelo=Integer.parseInt(rs.getObject("idModelo").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        
+        //id combo ejecutivo
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM ejecutivo WHERE nombre='"+idEjecutivo+"'");
+            while (rs.next()) {
+                datoEjecutivo=Integer.parseInt(rs.getObject("idEjecutivo").toString());
+            }
+            rs.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
 
-        data.addCotizacion(rutCliente, idMarca, idModelo, idFinanciamiento, idEjecutivo, tipo, neto, descuento, iva, total, observaciones, fecha);
+        data.addCotizacion(rutCliente, datoMarca, datoModelo, datoFinanciamiento, datoEjecutivo, tipo, neto, descuento, iva, total, observaciones, fecha);
         this.updateTablaCotizacion(rutCliente);
 
         data.addHistoria(rutCliente, fecha, "Se crea cotizacion " + tipo + " vehiculo " + this.cbMarcas.getSelectedItem().toString() + " " + this.cbModelo.getSelectedItem().toString());
@@ -1094,15 +1144,83 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         fila = tablacotizacion.rowAtPoint(evt.getPoint());
         if (fila > -1) {
             idcotizacion = String.valueOf(tablacotizacion.getValueAt(fila, 0));
-            this.cbMarcas.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 2))));
-            this.cbModelo.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 3))));
+            
+            String getComboMarca=String.valueOf(tablacotizacion.getValueAt(fila, 2));
+            try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM marca WHERE idMarca='"+getComboMarca+"'");
+            while (rs.next()) {
+                this.getComboMarcas();
+                this.cbMarcas.setSelectedItem(rs.getObject("nombre").toString());
+            }
+            rs.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            //this.cbMarcas.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 2))));
+            
+            String getComboModelo=String.valueOf(tablacotizacion.getValueAt(fila, 3));
+            try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM modelo WHERE idModelo='"+getComboModelo+"'");
+            while (rs.next()) {
+                this.cbModelo.setSelectedItem(rs.getObject("nombre").toString());
+            }
+            rs.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            //}this.cbModelo.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 3))));
+            
             this.txtNeto.setText(String.valueOf(tablacotizacion.getValueAt(fila, 7)));
             this.txtDesc.setText(String.valueOf(tablacotizacion.getValueAt(fila, 8)));
             this.txtIva.setText(String.valueOf(tablacotizacion.getValueAt(fila, 9)));
             this.txtTotal.setText(String.valueOf(tablacotizacion.getValueAt(fila, 10)));
             this.cbFinancia.setSelectedItem(String.valueOf(tablacotizacion.getValueAt(fila, 6)));
-            this.cbCredito.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 4))));
-            this.cbEjecutivo.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 5))));
+            
+            String getComboCredito=String.valueOf(tablacotizacion.getValueAt(fila, 4));
+            try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM financiamiento WHERE idFinanciamiento='"+getComboCredito+"'");
+            while (rs.next()) {
+                //this.getComboCredito();
+                this.cbCredito.setSelectedItem(rs.getObject("nombre").toString());
+            }
+            rs.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            //this.cbCredito.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 4))));
+            
+            String getComboEjecutivo=String.valueOf(tablacotizacion.getValueAt(fila, 5));
+            try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM ejecutivo WHERE idEjecutivo='"+getComboEjecutivo+"'");
+            while (rs.next()) {
+                this.cbEjecutivo.setSelectedItem(rs.getObject("nombre").toString());
+            }
+            rs.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+            //this.cbEjecutivo.setSelectedIndex(Integer.parseInt(String.valueOf(tablacotizacion.getValueAt(fila, 5))));
+            
             this.txtobs.setText(String.valueOf(tablacotizacion.getValueAt(fila, 11)));
             System.out.println("IdCotizacion Selected= " + idcotizacion);
         }
