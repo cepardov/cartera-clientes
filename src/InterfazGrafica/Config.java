@@ -4,19 +4,67 @@
  */
 package InterfazGrafica;
 
+import com.cepardov.Utilidades.FuncionesSQL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
 /**
  *
  * @author cepardov
  */
 public class Config extends javax.swing.JInternalFrame {
-
+    FuncionesSQL data=new FuncionesSQL();
+    Object[][] dtPrev;
+    int fila;
+    String nombre=null;
+    String id;
     /**
      * Creates new form Config
      */
     public Config() {
         initComponents();
+        this.getComboEstado();
+        this.updateTabla();
+        this.txtnombre.setText("");
     }
-
+    
+    private void getComboEstado() {
+        try {
+            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM estado");
+            modeloCombo.addElement("Seleccione");
+            while (rs.next()) {
+                modeloCombo.addElement(rs.getObject("nombre"));
+            }
+            rs.close();
+            this.cbestado.setModel(modeloCombo);
+        } catch (SQLException ex) {
+            Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void updateTabla(){  
+        String[] columNames = {"ID","Nombre Estado"};  
+        dtPrev = data.getEstado();
+        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
+        tabla.setModel(datos); 
+        TableColumn columna = tabla.getColumn("ID");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,12 +80,12 @@ public class Config extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         cbestado = new javax.swing.JComboBox();
         jPanel4 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtnombre = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
 
         setClosable(true);
@@ -74,22 +122,37 @@ public class Config extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1)
+                .addComponent(txtnombre)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Actualizar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -125,7 +188,7 @@ public class Config extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -136,7 +199,12 @@ public class Config extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -193,6 +261,78 @@ public class Config extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String resultado=null;
+        String nombre=this.txtnombre.getText();
+        
+        
+        if(this.txtnombre.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe Ingresar un nombre de estado...", "Error de datos", JOptionPane.ERROR_MESSAGE);
+            this.txtnombre.setText("");
+        } else {
+                try{
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+                    Statement st = conexion.createStatement();
+                    ResultSet rs = st.executeQuery("SELECT * FROM estado WHERE nombre='"+nombre+"'");
+                    while (rs.next()) {
+                        resultado=rs.getObject("nombre").toString().toUpperCase();
+                    }
+                    rs.close();
+                    System.out.println("result="+resultado);
+                } catch (SQLException se) {
+                    System.out.println(se);
+                } catch (ClassNotFoundException e) {
+                    System.out.println(e);
+                }
+                if(resultado!=null){
+                    if(resultado.equals(nombre.toUpperCase())){
+                    JOptionPane.showMessageDialog(null, "El estado "+nombre+" ya ha sido ingresada...", "Error de datos", JOptionPane.ERROR_MESSAGE);
+                    this.txtnombre.setText("");
+                    }else{
+                         data.addEstado(nombre);
+                         }
+                }else{
+                     data.addEstado(nombre);
+                }
+                this.getComboEstado();
+                this.updateTabla();
+                this.txtnombre.setText("");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if ( JOptionPane.showConfirmDialog(new JFrame(), 
+       "Esta Usted seguro de eliminar el estado \""+nombre+"\"?\n\nEs posible que sea necesaria al momento realizar una transacción.", 
+       "Confirmar Operación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { 
+        data.delEstado(nombre);
+        this.updateTabla();
+        this.getComboEstado();
+        this.txtnombre.setText("");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        // TODO add your handling code here:
+        fila = tabla.rowAtPoint(evt.getPoint());
+        if (fila > -1){
+            this.txtnombre.setText(String.valueOf(tabla.getValueAt(fila, 1)));
+            id=String.valueOf(tabla.getValueAt(fila, 0));
+            
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here
+        data.updateEstado(id,this.txtnombre.getText());
+        this.updateTabla();
+        this.getComboEstado();
+        this.txtnombre.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbestado;
     private javax.swing.JButton jButton1;
@@ -205,7 +345,7 @@ public class Config extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tabla;
+    private javax.swing.JTextField txtnombre;
     // End of variables declaration//GEN-END:variables
 }

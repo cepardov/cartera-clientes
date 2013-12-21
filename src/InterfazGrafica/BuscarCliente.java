@@ -27,7 +27,7 @@ public class BuscarCliente extends javax.swing.JInternalFrame {
         this.BuscarClientesAll();
     }
     
-    public void BuscarClientesAll(){
+    public final void BuscarClientesAll(){
         String[] columNames = {"RUT Cliente","Nombre","Apellido","Telefono","Fecha Ingreso"};  
         dtPrev = data.BuscarClienteAll();
         DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
@@ -175,7 +175,7 @@ public class BuscarCliente extends javax.swing.JInternalFrame {
        "Confirmar Operación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { 
 
         data.delCliente(rutCliente);
-        this.jButton1ActionPerformed(evt);
+        this.BuscarClientesAll();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
