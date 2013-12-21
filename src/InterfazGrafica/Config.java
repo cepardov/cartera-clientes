@@ -4,7 +4,9 @@
  */
 package InterfazGrafica;
 
+import com.cepardov.Utilidades.BackUpSample;
 import com.cepardov.Utilidades.FuncionesSQL;
+import com.cepardov.Utilidades.SistemaOperativo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,6 +26,7 @@ import javax.swing.table.TableColumn;
  */
 public class Config extends javax.swing.JInternalFrame {
     FuncionesSQL data=new FuncionesSQL();
+    SistemaOperativo so=new SistemaOperativo();
     Object[][] dtPrev;
     int fila;
     String nombre=null;
@@ -33,9 +36,11 @@ public class Config extends javax.swing.JInternalFrame {
      */
     public Config() {
         initComponents();
+        so.Sistema();
         this.getComboEstado();
         this.updateTabla();
         this.txtnombre.setText("");
+        this.dir.setText("Dicho respaldo se guardara en \""+so.getUserDir()+so.getSepDir()+"\"");
     }
     
     private void getComboEstado() {
@@ -87,6 +92,11 @@ public class Config extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        dir = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Configuracion de aplicación");
@@ -224,20 +234,57 @@ public class Config extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("General", jPanel1);
+
+        jButton4.setText("Respaldar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Esta Función le permitirá realiazar una copia de seguridad de su base de datos la cual se encontrará");
+
+        jLabel2.setText("en la ruta de instalación de la aplicación.");
+
+        jLabel3.setText("Para comenzar con el respaldo presione el botón respaldar...");
+
+        dir.setText("Directorio");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 733, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(261, 261, 261))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(dir))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dir)
+                .addGap(35, 35, 35)
+                .addComponent(jLabel3)
+                .addGap(26, 26, 26)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(163, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Respaldo de Información", jPanel5);
@@ -333,11 +380,21 @@ public class Config extends javax.swing.JInternalFrame {
         this.txtnombre.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        new BackUpSample().CrearBackup("localhost", "3306", "root", "", "BDSis",so.getUserDir()+"backup.sql");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbestado;
+    private javax.swing.JLabel dir;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

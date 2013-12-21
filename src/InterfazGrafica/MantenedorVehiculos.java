@@ -373,6 +373,7 @@ public class MantenedorVehiculos extends javax.swing.JInternalFrame {
 
             this.txtnombremarca.setText("");
             this.txtidmarca.setText("");
+            this.getComboMarcas();
         }
     }//GEN-LAST:event_btnguardamarcaActionPerformed
 

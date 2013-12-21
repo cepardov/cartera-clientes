@@ -5,6 +5,7 @@
 package InterfazGrafica;
 
 import com.cepardov.Utilidades.FuncionesSQL;
+import com.cepardov.Utilidades.SistemaOperativo;
 import com.cepardov.Utilidades.Usuario;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
     FuncionesSQL data=new FuncionesSQL();
+    SistemaOperativo so=new SistemaOperativo();
     /**
      * Creates new form Login
      */
@@ -24,6 +26,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.comprobarUsuario();
+        so.Sistema();
     }
     
     public void comprobarUsuario(){
