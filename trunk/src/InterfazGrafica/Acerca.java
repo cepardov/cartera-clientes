@@ -4,6 +4,7 @@
  */
 package InterfazGrafica;
 
+import com.cepardov.Utilidades.SistemaOperativo;
 import java.awt.Color;
 
 /**
@@ -11,6 +12,7 @@ import java.awt.Color;
  * @author cepardov
  */
 public class Acerca extends javax.swing.JFrame {
+    SistemaOperativo so=new SistemaOperativo();
     String Nombre="Cartera de Clientes";
     String Stable="1";
     String Cambios="0";
@@ -25,12 +27,15 @@ public class Acerca extends javax.swing.JFrame {
     public Acerca() {
         initComponents();
         setLocationRelativeTo(null);
+        so.Sistema();
         this.lblNombre.setText(Nombre);
         this.lblversion.setText(this.version());
         this.lblcopy.setText(this.copyright());
         this.lbllicencia.setText(Licencia);
         this.lbllicencia.setForeground(Color.red);
-        
+        this.lblsistema.setText(so.getSO()+" "+so.getVersion()+" "+so.getArch());
+        this.user.setText(so.getUsuario());
+        this.javaver.setText("Java Version: "+so.getJavaVer());
     }
     
     private String version(){
@@ -55,8 +60,11 @@ public class Acerca extends javax.swing.JFrame {
         lblcopy = new javax.swing.JLabel();
         lbllicencia = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        lblsistema = new javax.swing.JLabel();
+        user = new javax.swing.JLabel();
+        javaver = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Acerca de...");
         setAlwaysOnTop(true);
 
@@ -78,23 +86,36 @@ public class Acerca extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icon.png"))); // NOI18N
 
+        lblsistema.setText("Sistema");
+
+        user.setText("Usuario");
+
+        javaver.setText("Java");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(213, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblversion, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblcopy, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbllicencia, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(user))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(213, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblversion, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblcopy, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbllicencia, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblsistema, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(javaver)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,8 +124,17 @@ public class Acerca extends javax.swing.JFrame {
                 .addComponent(lblNombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblversion)
-                .addGap(47, 47, 47)
-                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblsistema)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(javaver)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(user)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(lbllicencia)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -159,9 +189,12 @@ public class Acerca extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel javaver;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblcopy;
     private javax.swing.JLabel lbllicencia;
+    private javax.swing.JLabel lblsistema;
     private javax.swing.JLabel lblversion;
+    private javax.swing.JLabel user;
     // End of variables declaration//GEN-END:variables
 }
