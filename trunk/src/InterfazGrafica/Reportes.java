@@ -4,22 +4,55 @@
  */
 package InterfazGrafica;
 
+import com.cepardov.Utilidades.FuncionesSQL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
 /**
  *
  * @author cepardov
  */
 public class Reportes extends javax.swing.JInternalFrame {
-
+    FuncionesSQL data=new FuncionesSQL();
+    Object[][] dtPrev;
+    int fila;
     /**
      * Creates new form Reportes
      */
     public Reportes() {
         initComponents();
+        this.getComboEstado();
     }
     
-    public void Process1(){
-        
+    private void getComboEstado() {
+        try {
+            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM estado");
+            modeloCombo.addElement("Seleccione");
+            modeloCombo.addElement("Cotización");
+            while (rs.next()) {
+                modeloCombo.addElement(rs.getObject("nombre"));
+            }
+            rs.close();
+            this.cbEstado.setModel(modeloCombo);
+        } catch (SQLException ex) {
+            Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,13 +63,10 @@ public class Reportes extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        btngenerar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        cbopcion = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
-        cborden = new javax.swing.JComboBox();
+        cbEstado = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -46,20 +76,14 @@ public class Reportes extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
-        btngenerar.setText("Generar");
-        btngenerar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btngenerarActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Tipo Reporte");
 
-        cbopcion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pendientes", "Aprobados", "Rechazados" }));
-
-        jLabel2.setText("Ordenar por");
-
-        cborden.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Fecha", "Estado" }));
+        cbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pendientes", "Aprobados", "Rechazados" }));
+        cbEstado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbEstadoItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -69,29 +93,20 @@ public class Reportes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbopcion, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cborden, 0, 233, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btngenerar)
-                .addContainerGap())
+                .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(438, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btngenerar)
                     .addComponent(jLabel1)
-                    .addComponent(cbopcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(cborden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -102,7 +117,7 @@ public class Reportes extends javax.swing.JInternalFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -121,34 +136,31 @@ public class Reportes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btngenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarActionPerformed
-        // TODO add your handling code here:
-        if(this.cbopcion.getSelectedItem().toString().equals("Pendientes")){
-            
-        }else if(this.cbopcion.getSelectedItem().toString().equals("Aprobados")){
-            
-        }else if(this.cbopcion.getSelectedItem().toString().equals("Reprobados")){
-            
-        }else if(this.cbopcion.getSelectedItem().toString().equals("Cerrado")){
-            
-        }
-    }//GEN-LAST:event_btngenerarActionPerformed
-
+    private void cbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbEstadoItemStateChanged
+        // TODO add your handling code here:}
+        this.updateTabla(this.cbEstado.getSelectedItem().toString());
+    }//GEN-LAST:event_cbEstadoItemStateChanged
+    
+    private void updateTabla(String estado){  
+        String[] columNames = {"RUT","Nombre","Paterno","Materno","Fecha de Ingreso"};  
+        dtPrev = data.getReporteCliente(estado);
+        DefaultTableModel datos = new DefaultTableModel(dtPrev,columNames);                        
+        tabla.setModel(datos); 
+        TableColumn columna = tabla.getColumn("Fecha de Ingreso");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btngenerar;
-    private javax.swing.JComboBox cbopcion;
-    private javax.swing.JComboBox cborden;
+    private javax.swing.JComboBox cbEstado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

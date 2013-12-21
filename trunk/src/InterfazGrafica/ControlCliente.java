@@ -48,6 +48,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         this.getComboMarcas();
         this.getComboCredito();
         this.updateClearTabla();
+        this.getComboEstado();
     }
 
     private void updateTablaHistoria(String rutCliente) {
@@ -107,6 +108,27 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             }
             rs.close();
             this.cbMarcas.setModel(modeloCombo);
+        } catch (SQLException ex) {
+            Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void getComboEstado() {
+        try {
+            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM estado");
+            modeloCombo.addElement("Seleccione");
+            modeloCombo.addElement("Cotización");
+            while (rs.next()) {
+                modeloCombo.addElement(rs.getObject("nombre"));
+            }
+            rs.close();
+            this.cbEstado.setModel(modeloCombo);
         } catch (SQLException ex) {
             Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -927,7 +949,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
@@ -947,6 +969,9 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         } else if (this.txttelefono.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Es necesario mantener algún lazo de comunicación con el cliente, por esta razón debe ingrezar un numero de contacto\nSi no desea agregar un numero ingrese el numero 0 (cero)", "¡ups! Algo salio mal durante la verificacion de datos...", JOptionPane.WARNING_MESSAGE);
             this.txttelefono.setBackground(Color.getHSBColor(254, 46, 38));
+        } else if (this.cbEstado.getSelectedItem().toString().equals("Seleccione")) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un estado para el cliente", "¡ups! Algo salio mal durante la verificacion de datos...", JOptionPane.WARNING_MESSAGE);
+            this.txttelefono.setBackground(Color.getHSBColor(254, 46, 38));
         } else {
             String rutCliente = this.txtrutCliente.getText();
             String nombre = this.txtnombre.getText();
@@ -958,7 +983,11 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             String telefono = this.txttelefono.getText();
             String email = this.txtemail.getText();
             String fechaIngreso = fs.fechahora();
-
+            
+            if (Estado.equals("Seleccione")) {
+                Estado="Pendiente";
+            }
+            
             data.addCliente(rutCliente, nombre, paterno, materno, Estado, direccion, ciudad, telefono, email, fechaIngreso);
         }
     }//GEN-LAST:event_btnsaveActionPerformed

@@ -26,24 +26,25 @@ import javax.swing.JFrame;
  * @author cepardov
  */
 public class Escritorio extends javax.swing.JFrame {
-     jcTrayIcon jct = new jcTrayIcon( this );
-     FuncionesSystem fs=new FuncionesSystem();
-     FuncionesSQL data=new FuncionesSQL();
-     String usuario=null;
-     Object[][] dtPrev;
-     Timer timer;
-     String fechaHoraAnterior;
-     String fechaHoraActual;
-     
-   /**
+
+    jcTrayIcon jct = new jcTrayIcon(this);
+    FuncionesSystem fs = new FuncionesSystem();
+    FuncionesSQL data = new FuncionesSQL();
+    String usuario = null;
+    Object[][] dtPrev;
+    Timer timer;
+    String fechaHoraAnterior;
+    String fechaHoraActual;
+
+    /**
      * Creates new form Escritorio
      */
-    public Escritorio(){
+    public Escritorio() {
         initComponents();
         setState(JFrame.MAXIMIZED_BOTH);
-        timer = new Timer(); 
-        timer.schedule (new RemindTask(),0, 60000);
-        fechaHoraAnterior=fs.fechahora();
+        timer = new Timer();        
+        timer.schedule(new RemindTask(), 0, 60000);
+        fechaHoraAnterior = fs.fechahora();
         this.lbltiempo.setText(fs.fechahora());
         this.lblultimacita.setText("");
         this.lblultimaobs.setText("");
@@ -51,16 +52,16 @@ public class Escritorio extends javax.swing.JFrame {
         this.lblcita.setText("");
     }
     
-    public Escritorio(String nombre, String Apellido, String Usuario){
+    public Escritorio(String nombre, String Apellido, String Usuario) {
         initComponents();
         usuario = Usuario;
-        jct.MensajeTrayIcon("Bienvenido (a) "+nombre+" "+Apellido, TrayIcon.MessageType.INFO);
+        jct.MensajeTrayIcon("Bienvenido (a) " + nombre + " " + Apellido, TrayIcon.MessageType.INFO);
         jct.MensajeTrayIcon("Cargando componentes de la aplicación...", TrayIcon.MessageType.INFO);
         jct.MensajeTrayIcon("Conectando con base de datos y comprobando la integridad de esta", TrayIcon.MessageType.INFO);
         setState(JFrame.MAXIMIZED_BOTH);
-        timer = new Timer(); 
-        timer.schedule (new RemindTask(),0, 60000);
-        fechaHoraAnterior=fs.fechahora();
+        timer = new Timer();        
+        timer.schedule(new RemindTask(), 0, 60000);
+        fechaHoraAnterior = fs.fechahora();
         this.lbltiempo.setText(fs.fechahora());
         this.lblultimacita.setText("");
         this.lblultimaobs.setText("");
@@ -68,14 +69,14 @@ public class Escritorio extends javax.swing.JFrame {
         this.lblcita.setText("");
     }
     
-    public void BuscaCita() throws ClassNotFoundException, SQLException{
+    public void BuscaCita() throws ClassNotFoundException, SQLException {
         //Consulta y setea hora actual del sistema en variable local fechaHora desde clase funciones de sistema
-        fechaHoraAnterior=fechaHoraActual;
+        fechaHoraAnterior = fechaHoraActual;
         this.lbltiempo.setText(fechaHoraAnterior);
-        fechaHoraActual=fs.fechahora();
+        fechaHoraActual = fs.fechahora();
         
-        System.out.println("anterior="+fechaHoraAnterior);
-        System.out.println("actual="+fechaHoraActual);
+        System.out.println("anterior=" + fechaHoraAnterior);
+        System.out.println("actual=" + fechaHoraActual);
         
         this.lblultimacita.setText(this.lblcita.getText());
         this.lblultimaobs.setText(this.lblobservacion.getText());
@@ -83,16 +84,16 @@ public class Escritorio extends javax.swing.JFrame {
         Class.forName("com.mysql.jdbc.Driver");
         Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
         Statement st = conexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM  `agenda` WHERE `fecha` BETWEEN  '"+fechaHoraAnterior+"' AND '"+fechaHoraActual+"'");
+        ResultSet rs = st.executeQuery("SELECT * FROM  `agenda` WHERE `fecha` BETWEEN  '" + fechaHoraAnterior + "' AND '" + fechaHoraActual + "'");
         while (rs.next()) {
-            this.lblcita.setText(rs.getObject("tipo").toString()+" "+rs.getObject("nombre").toString()+" "+rs.getObject("paterno").toString()+" "+rs.getObject("materno").toString()+" el "+rs.getObject("fecha").toString());
-            this.lblobservacion.setText("Observación: "+rs.getObject("observacion"));
+            this.lblcita.setText(rs.getObject("tipo").toString() + " " + rs.getObject("nombre").toString() + " " + rs.getObject("paterno").toString() + " " + rs.getObject("materno").toString() + " el " + rs.getObject("fecha").toString());
+            this.lblobservacion.setText("Observación: " + rs.getObject("observacion"));
             jct.MensajeTrayIcon(lblcita.getText(), TrayIcon.MessageType.INFO);
 
 //            if(rs.getObject("idCita").toString().isEmpty()){
 //                jct.MensajeTrayIcon("No na", TrayIcon.MessageType.INFO);
 //            }
-            }   
+        }        
         rs.close();
     }
     
@@ -100,11 +101,11 @@ public class Escritorio extends javax.swing.JFrame {
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("resources/icon.png"));
-
-
+        
+        
         return retValue;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -169,7 +170,7 @@ public class Escritorio extends javax.swing.JFrame {
 
         lblultimaobs.setText("jLabel3");
 
-        btnhistarial.setText("Ver Historial");
+        btnhistarial.setText("Ver Historial de Notificaciones");
         btnhistarial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnhistarialActionPerformed(evt);
@@ -341,7 +342,7 @@ public class Escritorio extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+            .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
         );
 
         pack();
@@ -351,72 +352,72 @@ public class Escritorio extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
+    
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        MantenedorFianaciamiento mf=new MantenedorFianaciamiento();
+        MantenedorFianaciamiento mf = new MantenedorFianaciamiento();
         p.add(mf);
         mf.show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
-
+    
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        MantenedorVehiculos mv=new MantenedorVehiculos();
+        MantenedorVehiculos mv = new MantenedorVehiculos();
         p.add(mv);
         mv.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
+    
     private void MenuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuClienteActionPerformed
         // TODO add your handling code here:
-        ControlCliente newc=new ControlCliente();
+        ControlCliente newc = new ControlCliente();
         p.add(newc);
         newc.show();
     }//GEN-LAST:event_MenuClienteActionPerformed
-
+    
     private void selCambiaClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selCambiaClaveActionPerformed
         // TODO add your handling code here:
-        editarclave edc=new editarclave(usuario);
+        editarclave edc = new editarclave(usuario);
         p.add(edc);
         edc.show();
     }//GEN-LAST:event_selCambiaClaveActionPerformed
-
+    
     private void btnhistarialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhistarialActionPerformed
         // TODO add your handling code here:
-        HistorialNotificaciones hn=new HistorialNotificaciones();
+        HistorialNotificaciones hn = new HistorialNotificaciones();
         p.add(hn);
         hn.show();
     }//GEN-LAST:event_btnhistarialActionPerformed
-
+    
     private void btnBuscaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaClienteActionPerformed
         // TODO add your handling code here:
-        BuscarCliente bc=new BuscarCliente();
+        BuscarCliente bc = new BuscarCliente();
         p.add(bc);
         bc.show();
     }//GEN-LAST:event_btnBuscaClienteActionPerformed
-
+    
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // TODO add your handling code here:
-        MantenedorEjecutivos me=new MantenedorEjecutivos();
+        MantenedorEjecutivos me = new MantenedorEjecutivos();
         p.add(me);
         me.show();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
-
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        Acerca ac=new Acerca();
+        Acerca ac = new Acerca();
         ac.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        Reportes r=new Reportes();
+        Reportes r = new Reportes();
         p.add(r);
         r.show();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
-
+    
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         // TODO add your handling code here:
-        Config conf=new Config();
+        Config conf = new Config();
         p.add(conf);
         conf.show();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
@@ -452,21 +453,23 @@ public class Escritorio extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                    new Escritorio().setVisible(true);
+                new Escritorio().setVisible(true);
             }
         });
     }
-    class RemindTask extends TimerTask  {
-         public void run (){
-             try {
-                 BuscaCita();
-             } catch (ClassNotFoundException ex) {
-                 Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
-             } catch (SQLException ex) {
-                 Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
-             }
-          }  
-      } 
+
+    class RemindTask extends TimerTask {
+
+        public void run() {
+            try {
+                BuscaCita();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Escritorio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuCliente;
     private javax.swing.JMenuItem btnBuscaCliente;

@@ -151,6 +151,18 @@ public class FuncionesSQL {
             JOptionPane.showMessageDialog(null, "Revise los datos ingresados no se ha podido guardar la solicitud.\nContacte con Administrador de la aplicación.\n" + e);
         }
     }
+    
+    public void addEstado(String nombre) {
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("insert into estado (nombre) values(?)");
+            pstm.setString(1, nombre);
+            pstm.execute();
+            pstm.close();
+            JOptionPane.showMessageDialog(null, "Configuración Realizada...", "Ingreso de Datos", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Revise los datos ingresados no se ha podido guardar la solicitud.\nContacte con Administrador de la aplicación.\n" + e);
+        }
+    }
 
     public void addFinanciamiento(String nombre) {
         try {
@@ -350,6 +362,21 @@ public class FuncionesSQL {
             JOptionPane.showMessageDialog(null, se);
         }
     }
+    
+    public void updateEstado(String idEstado, String nombre) {
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update estado "
+                    + "set nombre = ? "
+                    + "where idEstado = ?");
+            pstm.setString(1, nombre);
+            pstm.setString(2, idEstado);
+            pstm.execute();
+            pstm.close();
+            JOptionPane.showMessageDialog(null, "Trabajo realizado exitosamente.");
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+    }
 
     public Object[][] getMarca() {
         int posid = 0;
@@ -377,6 +404,36 @@ public class FuncionesSQL {
             res.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+        return data;
+    }
+    
+    public Object[][] getEstado() {
+        int posid = 0;
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM estado");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            posid = res.getInt("total");
+            res.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+        Object[][] data = new String[posid][2];
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT idEstado,nombre FROM estado ORDER BY nombre");
+            ResultSet res = pstm.executeQuery();
+            int increment = 0;
+            while (res.next()) {
+                String estId = res.getString("idEstado");
+                String estNombre = res.getString("nombre");
+                data[increment][0] = estId;
+                data[increment][1] = estNombre;
+                increment++;
+            }
+            res.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
         }
         return data;
     }
@@ -463,6 +520,42 @@ public class FuncionesSQL {
                 String estObservacion = res.getString("observacion");
                 data[increment][0] = estFecha;
                 data[increment][1] = estObservacion;
+                increment++;
+            }
+            res.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+        return data;
+    }
+    
+    public Object[][] getReporteCliente(String estado) {
+        int posid = 0;
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM cliente");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            posid = res.getInt("total");
+            res.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+        Object[][] data = new String[posid][5];
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT * FROM cliente WHERE estado='" + estado + "' ORDER BY fechaIngreso");
+            ResultSet res = pstm.executeQuery();
+            int increment = 0;
+            while (res.next()) {
+                String estRut = res.getString("rutCliente");
+                String estNombre = res.getString("nombre");
+                String estPaterno = res.getString("paterno");
+                String estMaterno = res.getString("materno");
+                String estIngreso = res.getString("fechaIngreso");
+                data[increment][0] = estRut;
+                data[increment][1] = estNombre;
+                data[increment][2] = estPaterno;
+                data[increment][3] = estMaterno;
+                data[increment][4] = estIngreso;
                 increment++;
             }
             res.close();
@@ -763,6 +856,16 @@ public class FuncionesSQL {
     public void delFinanciamiento(String idFinanciamiento) {
         try {
             PreparedStatement pstm = conn.getConnection().prepareStatement("delete from financiamiento where idFinanciamiento='" + idFinanciamiento + "'");
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+    }
+    
+    public void delEstado(String nombre) {
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("delete from estado where nombre='" + nombre + "'");
             pstm.execute();
             pstm.close();
         } catch (SQLException se) {
