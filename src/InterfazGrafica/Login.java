@@ -29,7 +29,7 @@ public class Login extends javax.swing.JFrame {
         so.Sistema();
     }
     
-    public void comprobarUsuario(){
+    public final void comprobarUsuario(){
         System.out.println("num "+data.getUsuario());
         if(data.getUsuario()==0){
             PrimeraEjecucion p=new PrimeraEjecucion();
