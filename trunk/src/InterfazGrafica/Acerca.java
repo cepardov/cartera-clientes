@@ -18,7 +18,7 @@ public class Acerca extends javax.swing.JFrame {
     String Cambios="0";
     String RevisionGoogle="Revisión "+"r12";
     String Estado="[Unstable]";
-    String NombreDesarrollador="Cristian Pardo Velásquez";
+    String NombreDesarrollador="Cristian Pardo Velásquez - E-Mail: cepardov@gmail.com";
     String Año="2013";
     String Licencia="Pruebas Alfa";
     /**

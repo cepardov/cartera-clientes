@@ -56,8 +56,6 @@ public class Escritorio extends javax.swing.JFrame {
         initComponents();
         usuario = Usuario;
         jct.MensajeTrayIcon("Bienvenido (a) " + nombre + " " + Apellido, TrayIcon.MessageType.INFO);
-        jct.MensajeTrayIcon("Cargando componentes de la aplicación...", TrayIcon.MessageType.INFO);
-        jct.MensajeTrayIcon("Conectando con base de datos y comprobando la integridad de esta", TrayIcon.MessageType.INFO);
         setState(JFrame.MAXIMIZED_BOTH);
         timer = new Timer();        
         timer.schedule(new RemindTask(), 0, 60000);

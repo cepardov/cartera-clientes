@@ -54,6 +54,7 @@ public class BuscarCliente extends javax.swing.JInternalFrame {
         tabla = new javax.swing.JTable();
 
         setClosable(true);
+        setTitle("Listado Clientes / Búsqueda");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de Busqueda"));
 
@@ -113,13 +114,13 @@ public class BuscarCliente extends javax.swing.JInternalFrame {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "No se han encontrado Clientes, ingrese desde menu control clientes"
             }
         ));
         tabla.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -170,12 +171,14 @@ public class BuscarCliente extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if ( JOptionPane.showConfirmDialog(new JFrame(), 
-       "Esta Usted seguro de eliminar este cliente?\n\nEste es una opcion que no se puede deshacer!", 
-       "Confirmar Operación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { 
+        if (rutCliente==null) {
+            JOptionPane.showMessageDialog(null, "Seleccione primero un cliente ha eliminar, tenga en cuenta que esta es una operación\nque no se puede deshacer.", "¡ups! Algo salio mal durante la verificacion de datos...", JOptionPane.ERROR_MESSAGE);
+        } else if ( JOptionPane.showConfirmDialog(new JFrame(), 
+            "Esta Usted seguro de eliminar este cliente?\n\nEste es una opcion que no se puede deshacer!", 
+            "Confirmar Operación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { 
 
-        data.delCliente(rutCliente);
-        this.BuscarClientesAll();
+             data.delCliente(rutCliente);
+             this.BuscarClientesAll();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

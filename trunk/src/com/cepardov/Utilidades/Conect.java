@@ -18,7 +18,7 @@ public class Conect {
              System.out.println("Como usuario: "+usuario);
          }
       }catch(SQLException se){
-          JOptionPane.showMessageDialog(null,"- La aplicación no tiene conexión con base de datos.\n- Inicie el servidor de base de datos de sus sitema.\nLa aplicacion que gestiona base de datos está detenida ejecute xampp y asegure que base de datos este corriendo.\nSi el problema persiste contacte con administrador.\n\nCodigo de error:\n"+ se, "¡ups! Algo inesperado ha pasado", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(null,"Lo sentimos hemos experimentado un fallo, compruebe lo siguente:\n\n\t- La licencia de usuario ha exirado: Contacte a soporte enviando un mail a cepardov@gmail.com\n\t-No es posible conectar con base de datos: inicie el servicio de base de datos de su sistema.\n\nCodigo de error:\n"+ se, "¡ups! Algo inesperado ha pasado", JOptionPane.ERROR_MESSAGE);
          System.out.println("Error: "+se);
          System.exit(0);
       }catch(ClassNotFoundException e){
