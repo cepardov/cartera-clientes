@@ -4,6 +4,7 @@
  */
 package InterfazGrafica;
 
+import com.cepardov.Utilidades.DetalleAplicacion;
 import com.cepardov.Utilidades.SistemaOperativo;
 import java.awt.Color;
 
@@ -13,14 +14,7 @@ import java.awt.Color;
  */
 public class Acerca extends javax.swing.JFrame {
     SistemaOperativo so=new SistemaOperativo();
-    String Nombre="Cartera de Clientes";
-    String Stable="1";
-    String Cambios="0";
-    String RevisionGoogle="Revisión "+"r16";
-    String Estado="[Unstable]";
-    String NombreDesarrollador="Cristian Pardo Velásquez - E-Mail: cepardov@gmail.com";
-    String Año="2013";
-    String Licencia="Pruebas Beta 2";
+    DetalleAplicacion app=new DetalleAplicacion();
     /**
      * Creates new form Acerca
      */
@@ -28,23 +22,19 @@ public class Acerca extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         so.Sistema();
-        this.lblNombre.setText(Nombre);
-        this.lblversion.setText(this.version());
-        this.lblcopy.setText(this.copyright());
-        this.lbllicencia.setText(Licencia);
+        this.lblNombre.setText(app.getNombre());
+        this.lblversion.setText(app.version());
+        this.lblcopy.setText(app.copyright());
+        this.lbllicencia.setText(app.getLicencia());
         this.lbllicencia.setForeground(Color.red);
         this.lblsistema.setText(so.getSO()+" "+so.getVersion()+" "+so.getArch());
         this.user.setText(so.getUsuario());
         this.javaver.setText("Java Version: "+so.getJavaVer());
     }
     
-    private String version(){
-        return Stable+"."+Cambios+" - "+RevisionGoogle+" "+Estado;
-    }
     
-    private String copyright(){
-        return "©"+Año+" "+NombreDesarrollador;
-    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
