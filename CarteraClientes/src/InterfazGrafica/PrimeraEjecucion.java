@@ -4,6 +4,7 @@
  */
 package InterfazGrafica;
 
+import com.cepardov.Utilidades.DetalleAplicacion;
 import com.cepardov.Utilidades.FuncionesSQL;
 import javax.swing.JOptionPane;
 
@@ -13,12 +14,14 @@ import javax.swing.JOptionPane;
  */
 public class PrimeraEjecucion extends javax.swing.JFrame {
     FuncionesSQL data=new FuncionesSQL();
+    DetalleAplicacion app=new DetalleAplicacion();
     /**
      * Creates new form PrimeraEjecucion
      */
     public PrimeraEjecucion() {
         initComponents();
         setLocationRelativeTo(null);
+        this.setTitle("Bienvenido (a). Conf. inicial "+app.getNombre());
     }
 
     /**
@@ -31,24 +34,23 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtnombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtapellido = new javax.swing.JTextField();
-        txtrut = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         txtusuario = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        txtcontraseña = new javax.swing.JPasswordField();
+        btnguardar = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtpregunta = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtrespuesta = new javax.swing.JTextField();
-        txtcontraseña = new javax.swing.JPasswordField();
-        btnguardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Configuraciones Iniciales");
@@ -56,17 +58,9 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Personales"));
 
-        jLabel1.setText("RUT");
-
         jLabel2.setText("Nombre");
 
         jLabel3.setText("Apellido");
-
-        try {
-            txtrut.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###-A")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -74,27 +68,19 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtrut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtapellido)
+                .addComponent(txtapellido, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtrut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
@@ -109,14 +95,6 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
 
         jLabel5.setText("Contraseña");
 
-        jLabel6.setText("Pregunta de recuperacion de usuario y contraseña en caso de olvido.");
-
-        jLabel7.setText("¿");
-
-        jLabel8.setText("?");
-
-        jLabel9.setText("Respuesta a la pregunta secreata anterior");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -124,26 +102,13 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(txtrespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtusuario)
-                            .addComponent(txtcontraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel9)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(6, 6, 6)
-                        .addComponent(txtpregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel8)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtusuario)
+                    .addComponent(txtcontraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,18 +121,7 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtcontraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtpregunta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtrespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/init.png"))); // NOI18N
@@ -178,22 +132,68 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
             }
         });
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Recuperación de usuario y/o contraseña"));
+
+        jLabel6.setText("Pregunta de recuperacion de usuario y contraseña en caso de olvido.");
+
+        jLabel7.setText("¿");
+
+        jLabel8.setText("?");
+
+        jLabel9.setText("Respuesta a la pregunta secreata anterior");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel7)
+                .addGap(4, 4, 4)
+                .addComponent(txtpregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jLabel8)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel9)
+                    .addComponent(txtrespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtpregunta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtrespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnguardar)
+                .addGap(26, 26, 26))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnguardar)
-                        .addGap(32, 32, 32))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,8 +203,10 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnguardar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         pack();
@@ -212,7 +214,7 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // TODO add your handling code here:
-        String rut=this.txtrut.getText();
+        String rut="0";
         String nombre=this.txtnombre.getText();
         String apellido=this.txtapellido.getText();
         String usuario=this.txtusuario.getText();
@@ -220,20 +222,26 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
         String pregunta=this.txtpregunta.getText();
         String respuesta=this.txtrespuesta.getText();
         
-        if(this.txtrut.toString().equals("99.999.999-k")){
-            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEl RUT ingresado no es valido el formato de ejemplo es:\n\t09.999.999-k o 99.999.999-k\ncomo se ve en el ejemplo anterior en case de ser menos de 10 millones anteponer cero (0)", "Error de datos", JOptionPane.WARNING_MESSAGE);
-        }else if(this.txtnombre.getText().toString().isEmpty()){
-            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEl nombre es requerido.", "Eroor de datos", JOptionPane.WARNING_MESSAGE);
+        if(this.txtnombre.getText().toString().isEmpty()){
+            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEl nombre es requerido.", "Error de datos", JOptionPane.WARNING_MESSAGE);
         }else if(this.txtapellido.getText().toString().isEmpty()){
-            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEl apellido es requerido.", "Eroor de datos", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEl apellido es requerido.", "Error de datos", JOptionPane.WARNING_MESSAGE);
         }else if(this.txtusuario.getText().toString().isEmpty()){
-            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEl usurio es requerido.", "Eroor de datos", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEl usurio es requerido.", "Error de datos", JOptionPane.WARNING_MESSAGE);
         }else if(this.txtcontraseña.getText().toString().isEmpty()){
-            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nLa contraseña es requerida.", "Eroor de datos", JOptionPane.WARNING_MESSAGE);
-        }else{
+            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nLa contraseña es requerida.", "Error de datos", JOptionPane.WARNING_MESSAGE);
+        }else if (this.txtpregunta.getText().toString().isEmpty()){
+            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEspecifique una pregunta secreta.", "Error de datos", JOptionPane.WARNING_MESSAGE);
+        }else if (this.txtrespuesta.getText().toString().isEmpty()){
+            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEspecifique una respuesta valida.", "Error de datos", JOptionPane.WARNING_MESSAGE);
+        }else if (this.txtusuario.getText().toString().equals(this.txtcontraseña.getText().toString())){
+            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nEl nombre de usuario no debe ser igual a la contraseña proporcionada.", "Error de datos", JOptionPane.WARNING_MESSAGE);
+        }else if (this.txtpregunta.getText().toString().equals(this.txtrespuesta.getText().toString())){
+            JOptionPane.showMessageDialog(null, "No se ha podido procesar su solicitud!\n\nLa pregunta secreta no debe ser igual a la respuesta proporcionada.", "Error de datos", JOptionPane.WARNING_MESSAGE);
+        } else {
             data.addUsuario(rut, nombre, apellido, usuario, clave, pregunta, respuesta);
             dispose();
-            JOptionPane.showMessageDialog(null, "Sr(a) "+nombre+" ya puede utilizar su nuevo sistema de gestion empresa!!\nInicie la aplicación nuevamente usando sus credenciales de inicio de sesión.", "Bienvenido (a) "+nombre+" "+apellido+" al sistema", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Bienvenido (a) "+nombre+" ya puede utilizar su nuevo sistema de gestion empresa!!\nInicie sesión usando sus credenciales de usuario registradas.", "Bienvenido (a) "+nombre+" "+apellido+" al sistema", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnguardarActionPerformed
 
@@ -273,7 +281,6 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnguardar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -284,12 +291,12 @@ public class PrimeraEjecucion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField txtapellido;
     private javax.swing.JPasswordField txtcontraseña;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JTextField txtpregunta;
     private javax.swing.JTextField txtrespuesta;
-    private javax.swing.JFormattedTextField txtrut;
     private javax.swing.JTextField txtusuario;
     // End of variables declaration//GEN-END:variables
 }
