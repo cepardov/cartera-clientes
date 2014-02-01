@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package com.cepardov.Utilidades;
+import InterfazGrafica.Acerca;
 import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.MenuItem;
@@ -17,6 +18,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 //import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,19 +27,22 @@ import javax.swing.JFrame;
  *
  * @author cepardov
  */
-public class jcTrayIcon {
+public class AreaNotificacion {
     FuncionesSystem fs=new FuncionesSystem();
+    DetalleAplicacion app=new DetalleAplicacion();
+    SystemTray systemtray = SystemTray.getSystemTray();
+    
     private JFrame miframe;
-    public String name="Notificaciones Cartera Clientes";
+    public String name=app.getNombre();
     private PopupMenu popup = new PopupMenu();
-    private Image image =new ImageIcon(getClass().getResource("icon.png")).getImage() ;
+    private Image image =new ImageIcon(getClass().getResource("icon.png")).getImage();
     private final TrayIcon trayIcon = new TrayIcon(image,name, popup);
-    //para el Timer
     private Timer timer;    
     private boolean band;
 
- public jcTrayIcon( JFrame frame)
+ public AreaNotificacion( JFrame frame)
  {
+     
     this.miframe = frame;
     //comprueba si SystemTray es soportado en el sistema
     if (SystemTray.isSupported())
@@ -51,8 +57,13 @@ public class jcTrayIcon {
         public void mousePressed(MouseEvent evt) {}
         public void mouseReleased(MouseEvent evt) {}
     };
-
     //ACCIONES DEL MENU POPUP
+    ActionListener AboutListener = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {            
+            Acerca about=new Acerca();
+            about.setVisible(true);
+        }
+    };
     //Salir de aplicacion
     ActionListener exitListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {            
@@ -69,7 +80,11 @@ public class jcTrayIcon {
         }
     };
     //Se crean los Items del menu PopUp y se añaden
-    MenuItem SalirItem = new MenuItem("Cerrar");
+    MenuItem AboutItem = new MenuItem("Acerca de..");
+    AboutItem.addActionListener(AboutListener);
+    popup.add(AboutItem);
+    
+    MenuItem SalirItem = new MenuItem("Cerrar Sesión");
     SalirItem.addActionListener(exitListener);
     popup.add(SalirItem);
 /*
@@ -81,13 +96,15 @@ public class jcTrayIcon {
 */
     //Añade el TrayIcon al SystemTray
     try {
-        systemtray.add(trayIcon);
+    systemtray.add(trayIcon);
     } catch (AWTException e) {
-        System.err.println( "Error:" + e.getMessage() );
+    System.err.println( "Error:" + e.getMessage() );
     }
+    
   } else {
      System.err.println( "Error: SystemTray no es soportado" );
   }
+    
 
     //Cuando se minimiza JFrame, se oculta para que no aparesca en la barra de tareas
      miframe.addWindowListener(new WindowAdapter(){
