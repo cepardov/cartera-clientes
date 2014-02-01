@@ -12,13 +12,13 @@ public class DetalleAplicacion {
     SistemaOperativo SO=new SistemaOperativo();
     
     private String Nombre="Nombre Aplicacion";
-    private String Stable="1";
-    private String Cambios="0";
-    private String RevisionGoogle=" r16 ";
+    private String Stable="2";
+    private String Cambios="4";
+    private String RevisionGoogle=" r20 ";
     private String Estado="RC1";
     private String NombreDesarrollador="Cristian Pardo Velásquez - E-Mail: cepardov@gmail.com";
     private String Año="2013";
-    private String Licencia="Pruebas Beta 2";
+    private String Licencia="Desarrollo";
 
     public SistemaOperativo getSO() {
         return SO;

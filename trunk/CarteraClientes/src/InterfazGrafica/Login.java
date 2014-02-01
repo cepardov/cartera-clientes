@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
  *
@@ -175,6 +176,10 @@ public class Login extends javax.swing.JFrame {
                 Escritorio es=new Escritorio(u.getNombre(),u.getApellido(),u.getUsuario());
                 es.setState(JFrame.MAXIMIZED_BOTH);
                 es.setTitle(app.getNombre()+" - "+u.getNombre()+" "+u.getApellido());
+                JFrame.setDefaultLookAndFeelDecorated(true);
+                SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.NebulaBrickWallSkin");
+                SubstanceLookAndFeel.setCurrentTheme("org.jvnet.substance.theme.SubstanceSunsetTheme"); 
+                SubstanceLookAndFeel.setCurrentWatermark("org.jvnet.substance.watermark.SubstancePlanktonWatermark");
                 es.setVisible(true);
                 dispose();
             }

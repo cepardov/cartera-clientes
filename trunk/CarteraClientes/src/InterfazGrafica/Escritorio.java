@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
  *
@@ -283,7 +284,7 @@ public class Escritorio extends javax.swing.JFrame {
         );
 
         btnArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/archivo.png"))); // NOI18N
-        btnArchivo.setText("Achivo");
+        btnArchivo.setText("Achivo ");
 
         MenuCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         MenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/control.png"))); // NOI18N
@@ -318,7 +319,7 @@ public class Escritorio extends javax.swing.JFrame {
         MenuBar.add(btnArchivo);
 
         btnReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/ver.png"))); // NOI18N
-        btnReportes.setText("Reportes");
+        btnReportes.setText("Reportes ");
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/estado.png"))); // NOI18N
@@ -343,7 +344,7 @@ public class Escritorio extends javax.swing.JFrame {
         MenuBar.add(btnReportes);
 
         btnHerramientas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/tool-box-icon.png"))); // NOI18N
-        btnHerramientas.setText("Herramientas");
+        btnHerramientas.setText("Herramientas ");
 
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/mantenedor.png"))); // NOI18N
         jMenu4.setText("Mantenedores");
@@ -413,7 +414,7 @@ public class Escritorio extends javax.swing.JFrame {
         MenuBar.add(btnHerramientas);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/FAQ-icon.png"))); // NOI18N
-        jMenu3.setText("Ayuda");
+        jMenu3.setText("Ayuda ");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/about.png"))); // NOI18N
@@ -623,6 +624,7 @@ public class Escritorio extends javax.swing.JFrame {
     class RemindTask extends TimerTask {
 
         public void run() {
+            
             try {
                 BuscaCita();
             } catch (ClassNotFoundException ex) {
