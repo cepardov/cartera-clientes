@@ -11,14 +11,14 @@ package com.cepardov.Utilidades;
 public class DetalleAplicacion {
     SistemaOperativo SO=new SistemaOperativo();
     
-    private String Nombre="Nombre Aplicacion";
+    private String Nombre="Cartera Clientes";
     private String Stable="2";
-    private String Cambios="5";
-    private String RevisionGoogle=" r20 ";
-    private String Estado="RC1";
+    private String Cambios="6";
+    private String RevisionGoogle=" r22 ";
+    private String Estado="RC2";
     private String NombreDesarrollador="Cristian Pardo Velásquez - E-Mail: cepardov@gmail.com";
-    private String Año="2013";
-    private String Licencia="Desarrollo";
+    private String Año="2014";
+    private String Licencia="Reg. de cambios visite https://code.google.com/p/cartera-clientes/source/list";
 
     public SistemaOperativo getSO() {
         return SO;
