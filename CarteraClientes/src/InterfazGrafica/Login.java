@@ -35,7 +35,6 @@ public class Login extends javax.swing.JFrame {
         this.comprobarUsuario();//Se comprueba si existe base de datos y al menos un usuario
         so.Sistema();//Se carga información sobre la plataforma de sistema operativo
     }
-    
     //Aquí se comprueba si existe un usuario en base de datos, si no es asi se muestra ventana
     //de registro de usuario.
     public final void comprobarUsuario(){
@@ -85,6 +84,15 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("Usuario");
 
         jLabel3.setText("Contraseña");
+
+        txtusuario.setText("cepardov");
+        txtusuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtusuarioActionPerformed(evt);
+            }
+        });
+
+        txtclave.setText("003170527");
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/login.png"))); // NOI18N
         btnLogin.setText("Iniciar Sesión");
@@ -177,6 +185,10 @@ public class Login extends javax.swing.JFrame {
     private void formKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_formKeyTyped
+
+    private void txtusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtusuarioActionPerformed
 
     /**
      * @param args the command line arguments
