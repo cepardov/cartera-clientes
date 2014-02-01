@@ -14,7 +14,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/resources/archivo.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Achivo"/>
+            <Property name="text" type="java.lang.String" value="Achivo "/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="MenuCliente">
@@ -65,7 +65,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/resources/ver.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Reportes"/>
+            <Property name="text" type="java.lang.String" value="Reportes "/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
@@ -103,7 +103,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/resources/tool-box-icon.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Herramientas"/>
+            <Property name="text" type="java.lang.String" value="Herramientas "/>
           </Properties>
           <SubComponents>
             <Menu class="javax.swing.JMenu" name="jMenu4">
@@ -202,7 +202,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/resources/FAQ-icon.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Ayuda"/>
+            <Property name="text" type="java.lang.String" value="Ayuda "/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
