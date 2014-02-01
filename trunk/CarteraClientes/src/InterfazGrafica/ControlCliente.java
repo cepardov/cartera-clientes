@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -37,12 +38,17 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     int datoEjecutivo=0;
     int datoModelo=0;
     int datoMarca = 0;
+    String anterior="-";
+    String actual="";
 
     /**
      * Creates new form NuevoCliente
      */
     public ControlCliente() {
         initComponents();
+        this.PanelCotiza1.setVisible(false);
+        this.PanelCotiza2.setVisible(false);
+        this.PanelAgenda1.setVisible(false);
         this.lblfecha.setText("");
         this.btnupdate.setVisible(false);
         this.getComboMarcas();
@@ -234,12 +240,19 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             this.btnsavecotiza.setEnabled(false);
             this.btnmodifcotiza.setEnabled(false);
             this.btndelcotiza.setEnabled(false);
+            this.PanelCotiza1.setVisible(false);
+            this.PanelCotiza2.setVisible(false);
+            this.PanelAgenda1.setVisible(false);
+            this.setTitle(this.titleframe);
         } else {
             this.btnsave.setVisible(false);
             this.btnupdate.setVisible(true);
             this.btnsavecotiza.setEnabled(true);
             this.btnmodifcotiza.setEnabled(true);
             this.btndelcotiza.setEnabled(true);
+            this.PanelCotiza1.setVisible(true);
+            this.PanelCotiza2.setVisible(true);
+            this.PanelAgenda1.setVisible(true);
             this.setTitle(titleframe + " [" + this.txtnombre.getText() + " " + this.txtpaterno.getText() + "] - Estado [" + this.cbEstado.getSelectedItem().toString() + "]");
         }
     }
@@ -281,7 +294,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tablahistoria = new javax.swing.JTable();
         tabCotiazcion = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        PanelCotiza1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         cbMarcas = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
@@ -300,7 +313,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablacotizacion = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
+        PanelCotiza2 = new javax.swing.JPanel();
         cbCredito = new javax.swing.JComboBox();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -312,7 +325,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         btnmodifcotiza = new javax.swing.JButton();
         btndelcotiza = new javax.swing.JButton();
         tabAgenda = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
+        PanelAgenda1 = new javax.swing.JPanel();
         cbTipoAgendamiento = new javax.swing.JComboBox();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -533,7 +546,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         tab.addTab("Cliente", jPanel1);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Ingreso Cotización"));
+        PanelCotiza1.setBorder(javax.swing.BorderFactory.createTitledBorder("Ingreso Cotización"));
 
         jLabel10.setText("Marca");
 
@@ -591,14 +604,14 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         jLabel24.setText("%");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelCotiza1Layout = new javax.swing.GroupLayout(PanelCotiza1);
+        PanelCotiza1.setLayout(PanelCotiza1Layout);
+        PanelCotiza1Layout.setHorizontalGroup(
+            PanelCotiza1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCotiza1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(PanelCotiza1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelCotiza1Layout.createSequentialGroup()
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
                         .addComponent(txtNeto, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -616,13 +629,13 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTotal))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(PanelCotiza1Layout.createSequentialGroup()
+                        .addGroup(PanelCotiza1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelCotiza1Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cbFinancia, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addGroup(PanelCotiza1Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cbMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -633,16 +646,16 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addGap(0, 81, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        PanelCotiza1Layout.setVerticalGroup(
+            PanelCotiza1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCotiza1Layout.createSequentialGroup()
+                .addGroup(PanelCotiza1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
                     .addComponent(cbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PanelCotiza1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13)
                     .addComponent(jLabel14)
@@ -653,7 +666,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel24))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PanelCotiza1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbFinancia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16)))
         );
@@ -691,7 +704,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Financiamiento"));
+        PanelCotiza2.setBorder(javax.swing.BorderFactory.createTitledBorder("Financiamiento"));
 
         cbCredito.setEnabled(false);
         cbCredito.addItemListener(new java.awt.event.ItemListener() {
@@ -737,18 +750,18 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelCotiza2Layout = new javax.swing.GroupLayout(PanelCotiza2);
+        PanelCotiza2.setLayout(PanelCotiza2Layout);
+        PanelCotiza2Layout.setHorizontalGroup(
+            PanelCotiza2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCotiza2Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(PanelCotiza2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelCotiza2Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGroup(PanelCotiza2Layout.createSequentialGroup()
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -757,7 +770,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbEjecutivo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel6Layout.createSequentialGroup()
+            .addGroup(PanelCotiza2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnsavecotiza)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -766,25 +779,25 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                 .addComponent(btndelcotiza)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        PanelCotiza2Layout.setVerticalGroup(
+            PanelCotiza2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCotiza2Layout.createSequentialGroup()
+                .addGroup(PanelCotiza2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
                     .addComponent(jLabel18)
                     .addComponent(cbEjecutivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(PanelCotiza2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelCotiza2Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(PanelCotiza2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnsavecotiza)
                             .addComponent(btnmodifcotiza)
                             .addComponent(btndelcotiza))
                         .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCotiza2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44))))
@@ -794,16 +807,16 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         tabCotiazcion.setLayout(tabCotiazcionLayout);
         tabCotiazcionLayout.setHorizontalGroup(
             tabCotiazcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelCotiza1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelCotiza2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         tabCotiazcionLayout.setVerticalGroup(
             tabCotiazcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabCotiazcionLayout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PanelCotiza1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PanelCotiza2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -811,9 +824,9 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
         tab.addTab("Cotizaciones", tabCotiazcion);
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Agendamiento de Cliente"));
+        PanelAgenda1.setBorder(javax.swing.BorderFactory.createTitledBorder("Agendamiento de Cliente"));
 
-        cbTipoAgendamiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Comunicarse con...", "Citar a...", "Llegada de Unidad", "Entrega de Unidad", "Facturación", "Solicitud de...", "Otro," }));
+        cbTipoAgendamiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "Comunicarse con...", "Citar a...", "Llegada de Unidad", "Entrega de Unidad", "Facturación", "Solicitud de...", "Recordatorio " }));
 
         jLabel20.setText("Tipo");
 
@@ -834,14 +847,14 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelAgenda1Layout = new javax.swing.GroupLayout(PanelAgenda1);
+        PanelAgenda1.setLayout(PanelAgenda1Layout);
+        PanelAgenda1Layout.setHorizontalGroup(
+            PanelAgenda1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAgenda1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(PanelAgenda1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelAgenda1Layout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbTipoAgendamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -856,32 +869,32 @@ public class ControlCliente extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addGroup(PanelAgenda1Layout.createSequentialGroup()
+                        .addGroup(PanelAgenda1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelAgenda1Layout.createSequentialGroup()
                                 .addComponent(jButton4)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel8Layout.createSequentialGroup()
+                            .addGroup(PanelAgenda1Layout.createSequentialGroup()
                                 .addComponent(jLabel23)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtobservacionAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)))
                         .addGap(12, 12, 12))))
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        PanelAgenda1Layout.setVerticalGroup(
+            PanelAgenda1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAgenda1Layout.createSequentialGroup()
+                .addGroup(PanelAgenda1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelAgenda1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbTipoAgendamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel20)
                         .addComponent(jLabel21))
                     .addComponent(txtfechaAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(PanelAgenda1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel22)
                         .addComponent(cbHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cbMinutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(PanelAgenda1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtobservacionAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel23))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -921,14 +934,14 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         tabAgenda.setLayout(tabAgendaLayout);
         tabAgendaLayout.setHorizontalGroup(
             tabAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelAgenda1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         tabAgendaLayout.setVerticalGroup(
             tabAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabAgendaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PanelAgenda1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(46, Short.MAX_VALUE))
@@ -950,7 +963,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tab, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         pack();
@@ -1277,15 +1290,21 @@ public class ControlCliente extends javax.swing.JInternalFrame {
 
     private void btndelcotizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndelcotizaActionPerformed
         // TODO add your handling code here:
-        String idCotizacion = this.idcotizacion;
+        if ( JOptionPane.showConfirmDialog(new JFrame(), 
+       "Esta Usted seguro de eliminar esta cotización?", 
+       "Confirmar Operación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) { 
+            String idCotizacion = this.idcotizacion;
         String rutCliente = this.txtrutCliente.getText();
 
         data.delCotizacion(idCotizacion);
         this.updateTablaCotizacion(rutCliente);
+        }
     }//GEN-LAST:event_btndelcotizaActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        this.anterior=actual;
+        System.out.println("");
         String rutCliente = this.txtrutCliente.getText();
         String nombre = this.txtnombre.getText();
         String paterno = this.txtpaterno.getText();
@@ -1301,14 +1320,27 @@ public class ControlCliente extends javax.swing.JInternalFrame {
         String fechahora = formato.format(fecha) + " " + hora + ":" + minutos + ":00";
 
         String fechaoperacion = fs.fechahora();
+        
+        this.actual=tipo+observacion+fechahora;
+        if(actual.equals(anterior)){
+            System.out.println("son iguales");
+            JOptionPane.showMessageDialog(null, "Ya ha ingresado datos identicos anteriormente", "¡ups! Algo salio mal durante la verificacion de datos...", JOptionPane.ERROR_MESSAGE);
+        }else{
+            System.out.println("son distintos");
+            data.addAgendamiento(rutCliente, nombre, paterno, materno, tipo, observacion, fechahora);
+            data.addHistoria(rutCliente, fechaoperacion, "Agenda: " + tipo + " el " + fechahora + " con Obs: " + observacion);
 
-        data.addAgendamiento(rutCliente, nombre, paterno, materno, tipo, observacion, fechahora);
-        data.addHistoria(rutCliente, fechaoperacion, "Agenda: " + tipo + " el " + fechahora + " con Obs: " + observacion);
-
+            this.updateTablaAgenda(rutCliente);
+            this.updateTablaHistoria(rutCliente);
+        }
         this.updateTablaAgenda(rutCliente);
         this.updateTablaHistoria(rutCliente);
+
     }//GEN-LAST:event_jButton4ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelAgenda1;
+    private javax.swing.JPanel PanelCotiza1;
+    private javax.swing.JPanel PanelCotiza2;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btndelcotiza;
     private javax.swing.JButton btnmodifcotiza;
@@ -1351,10 +1383,7 @@ public class ControlCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
