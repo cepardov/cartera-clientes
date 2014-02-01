@@ -66,46 +66,55 @@ public class Acerca extends javax.swing.JFrame {
         });
 
         lblNombre.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblNombre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNombre.setText("NOMBRE DE LA APLICACION");
 
+        lblversion.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblversion.setText("Version Aplicacion");
 
+        lblcopy.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblcopy.setText("Copy Right 2013 - Desarrollador");
 
+        lbllicencia.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbllicencia.setText("Licenciado a cliente");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icon.png"))); // NOI18N
 
+        lblsistema.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblsistema.setText("Sistema");
 
+        user.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         user.setText("Usuario");
 
+        javaver.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         javaver.setText("Java");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblversion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(user))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(213, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(javaver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblversion, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblcopy, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lbllicencia, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblsistema, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(javaver)))
-                .addContainerGap())
+                            .addComponent(lblsistema, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblcopy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+                            .addComponent(lbllicencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,13 +123,13 @@ public class Acerca extends javax.swing.JFrame {
                 .addComponent(lblNombre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblversion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblsistema)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                        .addGap(47, 47, 47)
                         .addComponent(jLabel5))
                     .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblsistema)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(javaver)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
