@@ -36,11 +36,18 @@ public class Config extends javax.swing.JInternalFrame {
      */
     public Config() {
         initComponents();
+        this.loadComboTemas();
         so.Sistema();
         this.getComboEstado();
         this.updateTabla();
         this.txtnombre.setText("");
         this.dir.setText("Dicho respaldo se guardara en \""+so.getUserDir()+so.getSepDir()+"\"");
+    }
+    
+    public void loadComboTemas(){
+        Login l=new Login();
+        this.cbskin.setSelectedItem(l.Skin);
+        this.cbtema.setSelectedItem(l.Tema);
     }
     
     private void getComboEstado() {
@@ -99,7 +106,10 @@ public class Config extends javax.swing.JInternalFrame {
         dir = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        cbskin = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        cbtema = new javax.swing.JComboBox();
 
         setClosable(true);
         setTitle("Configuracion de aplicación");
@@ -294,18 +304,43 @@ public class Config extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Los esquemas de colores tendrán efecto en el próximo inicio de sesión");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbskin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Predeterminado", "AutumnSkin", "BusinessBlackSteelSkin", "BusinessBlueSteelSkin", "BusinessSkin", "CremeCoffeeSkin", "CremeSkin", "EmeraldDuskSkin", "FieldOfWheatSkin", "FindingNemoSkin", "GreenMagicSkin", "MagmaSkin", "MangoSkin", "MistAquaSkin", "ModerateSkin", "NebulaBrickWallSkin", "NebulaSkin", "OfficeBlue2007Skin", "OfficeSilver2007Skin", "RavenGraphiteGlassSkin", "RavenGraphiteSkin", "RavenSkin", "SaharaSkin" }));
+        cbskin.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbskinItemStateChanged(evt);
+            }
+        });
+
+        jLabel5.setText("Decoración de Ventanas");
+
+        jLabel6.setText("Decoración de Botones");
+
+        cbtema.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Predeterminado", "SubstanceAquaTheme", "SubstanceBarbyPinkTheme", "SubstanceBottleGreenTheme", "SubstanceBrownTheme", "SubstanceCharcoalTheme", "SubstanceCremeTheme", "SubstanceDarkVioletTheme", "SubstanceDesertSandTheme", "SubstanceEbonyTheme", "SubstanceJadeForestTheme", "SubstanceLightAquaTheme", "SubstanceLimeGreenTheme", "SubstanceNegatedTheme", "SubstanceOliveTheme", "SubstanceOrangeTheme", "SubstancePurpleTheme", "SubstanceRaspberryTheme", "SubstanceSaturatedTheme", "SubstanceSepiaTheme", "SubstanceSteelBlueTheme", "SubstanceSunGlareTheme", "SubstanceSunsetTheme", "SubstanceTerracottaTheme" }));
+        cbtema.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbtemaItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addContainerGap(219, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbtema, 0, 267, Short.MAX_VALUE)
+                            .addComponent(cbskin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,8 +348,14 @@ public class Config extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbskin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(cbtema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(266, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Temas", jPanel6);
@@ -415,18 +456,33 @@ public class Config extends javax.swing.JInternalFrame {
         new BackUpSample().CrearBackup("localhost", "3306", "root", "", "BDSis",so.getUserDir()+"backup.sql");
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void cbskinItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbskinItemStateChanged
+        // TODO add your handling code here:
+        String Skin=this.cbskin.getSelectedItem().toString();
+        data.updateSkin(Skin);
+    }//GEN-LAST:event_cbskinItemStateChanged
+
+    private void cbtemaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbtemaItemStateChanged
+        // TODO add your handling code here:
+        String Tema=this.cbtema.getSelectedItem().toString();
+        data.updateTema(Tema);
+    }//GEN-LAST:event_cbtemaItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbestado;
+    private javax.swing.JComboBox cbskin;
+    private javax.swing.JComboBox cbtema;
     private javax.swing.JLabel dir;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

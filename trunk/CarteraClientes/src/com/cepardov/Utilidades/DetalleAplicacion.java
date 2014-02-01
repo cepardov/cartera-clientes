@@ -13,7 +13,7 @@ public class DetalleAplicacion {
     
     private String Nombre="Nombre Aplicacion";
     private String Stable="2";
-    private String Cambios="4";
+    private String Cambios="5";
     private String RevisionGoogle=" r20 ";
     private String Estado="RC1";
     private String NombreDesarrollador="Cristian Pardo Velásquez - E-Mail: cepardov@gmail.com";

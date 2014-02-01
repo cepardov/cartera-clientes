@@ -380,12 +380,25 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jComboBox1" alignment="1" min="-2" pref="267" max="-2" attributes="0"/>
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="cbtema" pref="267" max="32767" attributes="0"/>
+                                  <Component id="cbskin" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="219" max="32767" attributes="0"/>
+                      <EmptySpace pref="193" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -395,8 +408,16 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="315" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="cbskin" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbtema" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="266" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -407,17 +428,84 @@
                 <Property name="text" type="java.lang.String" value="Los esquemas de colores tendr&#xe1;n efecto en el pr&#xf3;ximo inicio de sesi&#xf3;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
+            <Component class="javax.swing.JComboBox" name="cbskin">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
+                  <StringArray count="23">
+                    <StringItem index="0" value="Predeterminado"/>
+                    <StringItem index="1" value="AutumnSkin"/>
+                    <StringItem index="2" value="BusinessBlackSteelSkin"/>
+                    <StringItem index="3" value="BusinessBlueSteelSkin"/>
+                    <StringItem index="4" value="BusinessSkin"/>
+                    <StringItem index="5" value="CremeCoffeeSkin"/>
+                    <StringItem index="6" value="CremeSkin"/>
+                    <StringItem index="7" value="EmeraldDuskSkin"/>
+                    <StringItem index="8" value="FieldOfWheatSkin"/>
+                    <StringItem index="9" value="FindingNemoSkin"/>
+                    <StringItem index="10" value="GreenMagicSkin"/>
+                    <StringItem index="11" value="MagmaSkin"/>
+                    <StringItem index="12" value="MangoSkin"/>
+                    <StringItem index="13" value="MistAquaSkin"/>
+                    <StringItem index="14" value="ModerateSkin"/>
+                    <StringItem index="15" value="NebulaBrickWallSkin"/>
+                    <StringItem index="16" value="NebulaSkin"/>
+                    <StringItem index="17" value="OfficeBlue2007Skin"/>
+                    <StringItem index="18" value="OfficeSilver2007Skin"/>
+                    <StringItem index="19" value="RavenGraphiteGlassSkin"/>
+                    <StringItem index="20" value="RavenGraphiteSkin"/>
+                    <StringItem index="21" value="RavenSkin"/>
+                    <StringItem index="22" value="SaharaSkin"/>
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbskinItemStateChanged"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel5">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Decoraci&#xf3;n de Ventanas"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel6">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Decoraci&#xf3;n de Botones"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cbtema">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="24">
+                    <StringItem index="0" value="Predeterminado"/>
+                    <StringItem index="1" value="SubstanceAquaTheme"/>
+                    <StringItem index="2" value="SubstanceBarbyPinkTheme"/>
+                    <StringItem index="3" value="SubstanceBottleGreenTheme"/>
+                    <StringItem index="4" value="SubstanceBrownTheme"/>
+                    <StringItem index="5" value="SubstanceCharcoalTheme"/>
+                    <StringItem index="6" value="SubstanceCremeTheme"/>
+                    <StringItem index="7" value="SubstanceDarkVioletTheme"/>
+                    <StringItem index="8" value="SubstanceDesertSandTheme"/>
+                    <StringItem index="9" value="SubstanceEbonyTheme"/>
+                    <StringItem index="10" value="SubstanceJadeForestTheme"/>
+                    <StringItem index="11" value="SubstanceLightAquaTheme"/>
+                    <StringItem index="12" value="SubstanceLimeGreenTheme"/>
+                    <StringItem index="13" value="SubstanceNegatedTheme"/>
+                    <StringItem index="14" value="SubstanceOliveTheme"/>
+                    <StringItem index="15" value="SubstanceOrangeTheme"/>
+                    <StringItem index="16" value="SubstancePurpleTheme"/>
+                    <StringItem index="17" value="SubstanceRaspberryTheme"/>
+                    <StringItem index="18" value="SubstanceSaturatedTheme"/>
+                    <StringItem index="19" value="SubstanceSepiaTheme"/>
+                    <StringItem index="20" value="SubstanceSteelBlueTheme"/>
+                    <StringItem index="21" value="SubstanceSunGlareTheme"/>
+                    <StringItem index="22" value="SubstanceSunsetTheme"/>
+                    <StringItem index="23" value="SubstanceTerracottaTheme"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbtemaItemStateChanged"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

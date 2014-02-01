@@ -10,6 +10,13 @@ import com.cepardov.Utilidades.SistemaOperativo;
 import com.cepardov.Utilidades.Usuario;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.jvnet.substance.SubstanceLookAndFeel;
@@ -24,12 +31,20 @@ public class Login extends javax.swing.JFrame {
     SistemaOperativo so=new SistemaOperativo();
     DetalleAplicacion app=new DetalleAplicacion();
     int intentos=3;
+    String Skin,Tema;
     
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        try {
+            this.loadConf();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setTitle("Inicio de Sesión - "+app.getNombre());
         this.lblVersion.setText("V"+app.version());
         setLocationRelativeTo(null);//Setea posición de ventana a 0,0 centro
@@ -46,6 +61,20 @@ public class Login extends javax.swing.JFrame {
         } else {
             System.out.println("Existen en base de datos "+data.getUsuario()+" usuario (s) disponibles.");
         }
+    }
+    
+    public void loadConf() throws ClassNotFoundException, SQLException{
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/BDSis", "root", "");
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery("SELECT * FROM conf");
+        while (rs.next()) {
+            Skin=rs.getObject("skin").toString();
+            Tema=rs.getObject("tema").toString();
+            System.out.println(Skin);
+            System.out.println(Tema);
+        }
+        rs.close();
     }
 
     @Override
@@ -177,8 +206,8 @@ public class Login extends javax.swing.JFrame {
                 es.setState(JFrame.MAXIMIZED_BOTH);
                 es.setTitle(app.getNombre()+" - "+u.getNombre()+" "+u.getApellido());
                 JFrame.setDefaultLookAndFeelDecorated(true);
-                SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.NebulaBrickWallSkin");
-                SubstanceLookAndFeel.setCurrentTheme("org.jvnet.substance.theme.SubstanceSunsetTheme"); 
+                SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin."+Skin);
+                SubstanceLookAndFeel.setCurrentTheme("org.jvnet.substance.theme."+Tema); 
                 SubstanceLookAndFeel.setCurrentWatermark("org.jvnet.substance.watermark.SubstancePlanktonWatermark");
                 es.setVisible(true);
                 dispose();

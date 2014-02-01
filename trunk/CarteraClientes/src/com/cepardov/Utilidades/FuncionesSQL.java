@@ -76,6 +76,30 @@ public class FuncionesSQL {
             JOptionPane.showMessageDialog(null, se);
         }
     }
+    
+    public void updateSkin(String Skin) {
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update conf "
+                    + "set skin=?");
+            pstm.setString(1, Skin);
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+    }
+    
+    public void updateTema(String Tema) {
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("update conf "
+                    + "set Tema=?");
+            pstm.setString(1, Tema);
+            pstm.execute();
+            pstm.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+    }
 
     public void updateModelos(String idModelo, int idMarca, String nombre) {
         try {
@@ -437,6 +461,37 @@ public class FuncionesSQL {
         }
         return data;
     }
+    
+    public Object[][] getConf() {
+        int posid = 0;
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT count(1) as total FROM conf");
+            ResultSet res = pstm.executeQuery();
+            res.next();
+            posid = res.getInt("total");
+            res.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+        Object[][] data = new String[posid][2];
+        try {
+            PreparedStatement pstm = conn.getConnection().prepareStatement("SELECT skin,tema FROM conf");
+            ResultSet res = pstm.executeQuery();
+            int increment = 0;
+            while (res.next()) {
+                String estSkin = res.getString("skin");
+                String estTema = res.getString("tema");
+                data[increment][0] = estSkin;
+                data[increment][1] = estTema;
+                increment++;
+            }
+            res.close();
+        } catch (SQLException se) {
+            JOptionPane.showMessageDialog(null, se);
+        }
+        return data;
+    }
+    
 
     public Object[][] getModelo() {
         int posid = 0;
