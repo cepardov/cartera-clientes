@@ -283,11 +283,11 @@ public class Escritorio extends javax.swing.JFrame {
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        btnArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/archivo.png"))); // NOI18N
+        btnArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/newArchivo.png"))); // NOI18N
         btnArchivo.setText("Achivo ");
 
         MenuCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        MenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/control.png"))); // NOI18N
+        MenuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/newControl.png"))); // NOI18N
         MenuCliente.setText("Centro Control Clientes");
         MenuCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -297,6 +297,7 @@ public class Escritorio extends javax.swing.JFrame {
         btnArchivo.add(MenuCliente);
 
         jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/newLockIcon.png"))); // NOI18N
         jMenuItem10.setText("Bloquear");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,7 +308,7 @@ public class Escritorio extends javax.swing.JFrame {
         btnArchivo.add(jSeparator1);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/closeicon.png"))); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/newCloseIcon.png"))); // NOI18N
         jMenuItem5.setText("Cerrar");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,11 +319,11 @@ public class Escritorio extends javax.swing.JFrame {
 
         MenuBar.add(btnArchivo);
 
-        btnReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/ver.png"))); // NOI18N
+        btnReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/newReportes.png"))); // NOI18N
         btnReportes.setText("Reportes ");
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/estado.png"))); // NOI18N
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/newEstadoCli.png"))); // NOI18N
         jMenuItem6.setText("Estado Clientes");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -447,7 +448,7 @@ public class Escritorio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(PanelBloq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))
+                .addComponent(p, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE))
         );
 
         pack();

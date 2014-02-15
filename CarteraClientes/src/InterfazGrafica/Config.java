@@ -42,12 +42,22 @@ public class Config extends javax.swing.JInternalFrame {
         this.updateTabla();
         this.txtnombre.setText("");
         this.dir.setText("Dicho respaldo se guardara en \""+so.getUserDir()+so.getSepDir()+"\"");
+        
+    }
+    
+    public void detectComboTema(){
+        String Skin=this.cbskin.getSelectedItem().toString();
     }
     
     public void loadComboTemas(){
         Login l=new Login();
         this.cbskin.setSelectedItem(l.Skin);
         this.cbtema.setSelectedItem(l.Tema);
+        if("Predeterminado".equals(l.Skin)){
+            this.cbtema.setEnabled(false);
+        }else{
+            this.cbtema.setEnabled(true);
+        }
     }
     
     private void getComboEstado() {
@@ -247,7 +257,7 @@ public class Config extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("General", jPanel1);
@@ -297,7 +307,7 @@ public class Config extends javax.swing.JInternalFrame {
                 .addComponent(jLabel3)
                 .addGap(26, 26, 26)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Respaldo de Información", jPanel5);
@@ -355,7 +365,7 @@ public class Config extends javax.swing.JInternalFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(cbtema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addContainerGap(269, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Temas", jPanel6);
@@ -459,6 +469,13 @@ public class Config extends javax.swing.JInternalFrame {
     private void cbskinItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbskinItemStateChanged
         // TODO add your handling code here:
         String Skin=this.cbskin.getSelectedItem().toString();
+        if("Predeterminado".equals(Skin)){
+            this.cbtema.setSelectedItem("Predeterminado");
+            this.cbtema.setEnabled(false);
+            data.updateTema("Predeterminado");
+        }else{
+            this.cbtema.setEnabled(true);
+        }
         data.updateSkin(Skin);
     }//GEN-LAST:event_cbskinItemStateChanged
 
