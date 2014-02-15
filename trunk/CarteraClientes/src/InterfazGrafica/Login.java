@@ -115,14 +115,11 @@ public class Login extends javax.swing.JFrame {
 
         jLabel3.setText("Contraseña");
 
-        txtusuario.setText("cepardov");
         txtusuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtusuarioActionPerformed(evt);
             }
         });
-
-        txtclave.setText("003170527");
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/login.png"))); // NOI18N
         btnLogin.setText("Iniciar Sesión");

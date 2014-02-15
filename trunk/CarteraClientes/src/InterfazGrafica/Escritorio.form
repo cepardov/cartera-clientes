@@ -12,7 +12,7 @@
         <Menu class="javax.swing.JMenu" name="btnArchivo">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/archivo.png"/>
+              <Image iconType="3" name="/resources/newArchivo.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Achivo "/>
           </Properties>
@@ -23,7 +23,7 @@
                   <KeyStroke key="F1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/resources/control.png"/>
+                  <Image iconType="3" name="/resources/newControl.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Centro Control Clientes"/>
               </Properties>
@@ -35,6 +35,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+L"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/resources/newLockIcon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Bloquear"/>
               </Properties>
@@ -50,7 +53,7 @@
                   <KeyStroke key="Alt+F4"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/resources/closeicon.png"/>
+                  <Image iconType="3" name="/resources/newCloseIcon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cerrar"/>
               </Properties>
@@ -63,7 +66,7 @@
         <Menu class="javax.swing.JMenu" name="btnReportes">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/ver.png"/>
+              <Image iconType="3" name="/resources/newReportes.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Reportes "/>
           </Properties>
@@ -74,7 +77,7 @@
                   <KeyStroke key="F3"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/resources/estado.png"/>
+                  <Image iconType="3" name="/resources/newEstadoCli.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Estado Clientes"/>
               </Properties>
@@ -275,7 +278,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="PanelBloq" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="p" pref="471" max="32767" attributes="0"/>
+              <Component id="p" pref="473" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
