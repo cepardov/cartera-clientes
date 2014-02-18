@@ -13,10 +13,10 @@
 	<parameter name="Desde" class="java.lang.String"/>
 	<parameter name="Hasta" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT * 
-FROM  cliente 
+		<![CDATA[SELECT *
+FROM  cliente
 WHERE  estado =  $P{Estado}
-AND  fechaIngreso 
+AND  fechaIngreso
 BETWEEN  $P{Desde}
 AND  $P{Hasta}]]>
 	</queryString>

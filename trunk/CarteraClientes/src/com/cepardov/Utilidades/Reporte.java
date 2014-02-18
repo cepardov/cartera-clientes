@@ -7,7 +7,6 @@ package com.cepardov.Utilidades;
 import java.awt.Frame;
 import java.util.HashMap;
 import java.util.Map;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -27,7 +26,7 @@ public class Reporte {
     
     public void mostrarReporte(){
         try {
-            String master = "report1.jasper";
+            String master = "reporte/report1.jasper";
             if(master == null){
                 System.out.println("eroor master");
             }

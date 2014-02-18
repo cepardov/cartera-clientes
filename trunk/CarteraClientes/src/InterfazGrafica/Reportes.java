@@ -11,9 +11,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -68,6 +70,10 @@ public class Reportes extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         cbEstado = new javax.swing.JComboBox();
         btnReport = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtfechadesde = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        txtfechahasta = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
 
@@ -95,6 +101,10 @@ public class Reportes extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setText("Desde");
+
+        jLabel3.setText("hasta");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -103,19 +113,32 @@ public class Reportes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtfechadesde, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtfechahasta, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btnReport)
-                .addContainerGap(349, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReport))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtfechahasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnReport)
+                        .addComponent(jLabel2)
+                        .addComponent(txtfechadesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)))
                 .addContainerGap())
         );
 
@@ -149,7 +172,7 @@ public class Reportes extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -164,9 +187,24 @@ public class Reportes extends javax.swing.JInternalFrame {
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
         // TODO add your handling code here:
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date fechadesde1 = this.txtfechadesde.getDate();
+        java.util.Date fechahasta2 = this.txtfechahasta.getDate();
+        String fechadesde = formato.format(fechadesde1);
+        String fechahasta = formato.format(fechahasta2);
+        
+        if(fechadesde.equals(fechahasta)){
+            JOptionPane.showMessageDialog(null, "La busqueda entre fechas iguales no estan permitidas:\n"
+                    + "Fecha selecionada "+fechadesde+" - "+fechahasta+" ambas desde las cero horas.\n"
+                    + "- Se sugiere para buscar en la opción \"hasta\" un dia después.\n"
+                    + "- Si quiere seleccionar un mes de búsqueda sería desde 01-01-2000 hasta 01-02-2000.", "Reportes", JOptionPane.WARNING_MESSAGE);
+        }
+        
         EjecutarReporte er=new EjecutarReporte();
         String Estado=this.cbEstado.getSelectedItem().toString();
-        er.startReport("estadoClientes",Estado);
+        er.startReport("estadoClientes",Estado,fechadesde.toString(),fechahasta.toString());
+        System.out.println("Desde="+fechadesde+ " " + "00" + ":" + "00");
+        System.out.println("Hasta="+fechahasta+ " " + "23" + ":" + "59");
     }//GEN-LAST:event_btnReportActionPerformed
     
     private void updateTabla(String estado){  
@@ -181,8 +219,12 @@ public class Reportes extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnReport;
     private javax.swing.JComboBox cbEstado;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabla;
+    private com.toedter.calendar.JDateChooser txtfechadesde;
+    private com.toedter.calendar.JDateChooser txtfechahasta;
     // End of variables declaration//GEN-END:variables
 }

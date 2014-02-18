@@ -531,7 +531,7 @@ public class Escritorio extends javax.swing.JFrame {
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         // TODO add your handling code here:
         EjecutarReporte er=new EjecutarReporte();
-        er.startReport("listaClientes", "");
+        er.startReport("listaClientes", "","","");
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
